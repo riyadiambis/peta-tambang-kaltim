@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "cream-bg": "#FBF9F4",
+          "cream-surface": "#F5F1E8",
+          "cream-card": "#FFFFFF",
+          "cream-border": "#E8E2D5",
+          "cream-border-dark": "#DCD4C4",
+          "cream-dashed": "#D5CCA2",
+          "cream-muted": "#EFECE4",
+          "dark-title": "#201C16",
+          "dark-body": "#474136",
+          "dark-sub": "#766F62",
+          "brand-terracotta": "#E24F32",
+          "brand-terracotta-hover": "#C93E23",
+          "brand-blue": "#0284C7",
+          "brand-green": "#16A34A",
+          "brand-forest": "#15803D"
+        },
+        borderRadius: {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        spacing: {
+          "space-lg": "1rem",
+          "space-xs": "0.25rem",
+          "space-md": "0.75rem",
+          "gutter": "0.75rem",
+          "margin": "1rem",
+          "margin-desktop": "1.25rem",
+          "gutter-desktop": "1rem",
+          "space-sm": "0.5rem",
+          "space-xl": "1.5rem"
+        },
+        fontFamily: {
+          "headline-lg": ["Inter", "sans-serif"],
+          "body-md": ["Inter", "sans-serif"],
+          "title-sm": ["Inter", "sans-serif"],
+          "body-sm": ["Inter", "sans-serif"],
+          "headline-md": ["Inter", "sans-serif"],
+          "label-mono": ["JetBrains Mono", "monospace"],
+          "display": ["Inter", "sans-serif"],
+          "metric-num": ["Inter", "sans-serif"],
+          "caption-mono": ["JetBrains Mono", "monospace"]
+        },
+        fontSize: {
+          "headline-lg": ["1.5rem", { lineHeight: "2rem", letterSpacing: "-0.015em", fontWeight: "600" }],
+          "body-md": ["0.875rem", { lineHeight: "1.375rem", letterSpacing: "0", fontWeight: "400" }],
+          "title-sm": ["0.875rem", { lineHeight: "1.25rem", letterSpacing: "0", fontWeight: "600" }],
+          "body-sm": ["0.75rem", { lineHeight: "1.125rem", letterSpacing: "0", fontWeight: "400" }],
+          "headline-md": ["1.125rem", { lineHeight: "1.5rem", letterSpacing: "-0.01em", fontWeight: "600" }],
+          "label-mono": ["0.75rem", { lineHeight: "1rem", letterSpacing: "-0.01em", fontWeight: "500" }],
+          "display": ["2rem", { lineHeight: "2.5rem", letterSpacing: "-0.02em", fontWeight: "600" }],
+          "metric-num": ["1.75rem", { lineHeight: "2rem", letterSpacing: "-0.03em", fontWeight: "600" }],
+          "caption-mono": ["0.6875rem", { lineHeight: "0.875rem", letterSpacing: "0", fontWeight: "400" }]
+        }
+      }
+    }
+  }
+</script></head><body class="bg-cream-bg font-body-md text-dark-body antialiased"><header class="fixed top-0 left-0 right-0 z-50 h-14 bg-cream-bg/95 backdrop-blur border-b border-cream-border"><div class="w-full h-full px-space-md flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg flex-shrink-0"><div class="flex items-center gap-space-sm"><div class="flex items-center justify-center w-7 h-7 rounded bg-cream-surface border border-cream-border text-brand-terracotta"><span class="material-symbols-outlined text-[18px]">satellite_alt</span></div><div class="flex items-center gap-space-xs"><span class="font-title-sm text-title-sm text-dark-title tracking-tight font-semibold">Peta Tambang Kaltim</span><span class="px-1.5 py-0.5 rounded bg-cream-surface text-dark-body font-caption-mono text-caption-mono border border-cream-border-dark">Riset Sentinel-2 &amp; CNN</span></div></div><nav class="flex items-center gap-space-xs h-14"><a class="px-space-md h-full flex items-center font-body-sm text-body-sm text-dark-sub hover:text-dark-title hover:bg-cream-surface transition-colors" data-path="peta" href="#">Peta</a><a aria-current="page" class="px-space-md h-full flex items-center transition-colors text-brand-terracotta bg-cream-surface font-semibold border-b-2 border-brand-terracotta" data-path="demo-model" href="#">Demo Model</a><a class="px-space-md h-full flex items-center font-body-sm text-body-sm text-dark-sub hover:text-dark-title hover:bg-cream-surface transition-colors" data-path="tentang" href="#">Tentang</a></nav></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-2.5 text-dark-sub text-[16px] pointer-events-none">search</span><input class="w-64 h-8 pl-8 pr-3 bg-white border border-cream-border rounded text-dark-title font-body-sm text-body-sm placeholder:text-dark-sub/60 focus:outline-none focus:border-brand-terracotta transition-colors shadow-xs" placeholder="Cari lokasi, misal: Loa Kulu..." type="text"/></div><div class="flex items-center gap-1.5 px-2 py-1 rounded bg-cream-surface border border-cream-border"><span class="material-symbols-outlined text-brand-terracotta text-[16px]">layers</span><span class="font-label-mono text-label-mono text-dark-body">S2-L2A TrueColor</span></div><div class="flex items-center gap-1.5 px-2 py-1 rounded bg-cream-surface border border-cream-border"><span class="w-1.5 h-1.5 rounded-full bg-brand-forest"></span><span class="font-caption-mono text-caption-mono text-dark-title font-medium">Informatika UNMUL</span></div><div class="w-8 h-8 rounded-full bg-cream-border-dark flex items-center justify-center flex-shrink-0 text-dark-title"><span class="material-symbols-outlined text-dark-title text-[18px]">person</span></div></div></div></header><main class="w-full pt-14 bg-cream-bg min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full max-w-6xl mx-auto py-space-xl px-gutter-desktop">
+<!-- Header Context Tag & Title -->
+<div class="mb-space-lg">
+<div class="flex items-center gap-space-xs mb-space-xs">
+<span class="px-2 py-0.5 rounded bg-cream-surface border border-cream-border text-brand-terracotta font-caption-mono text-caption-mono font-semibold">
+          EVALUASI MODEL INTERAKTIF
+        </span>
+<span class="text-dark-sub font-caption-mono text-caption-mono">
+          / KALIMANTAN TIMUR L2A TEST BENCH
+        </span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-dark-title tracking-tight font-bold">
+            Coba Klasifikasi Patch Sentinel-2
+          </h1>
+<p class="font-body-md text-body-md text-dark-body max-w-2xl mt-1">
+            Uji arsitektur kustom CNN 7-kanal (64×64 piksel: B2, B3, B4, B5, B8, B11, B12) untuk mendeteksi batas tambang batubara terbuka dan kluster tutupan lahan sekitarnya secara deterministik.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs self-start md:self-auto bg-cream-surface border border-cream-border px-space-md py-1.5 rounded-lg shadow-xs">
+<span class="w-2 h-2 rounded-full bg-brand-forest animate-pulse"></span>
+<span class="font-label-mono text-label-mono text-dark-title font-medium">HF Inference API: Siap</span>
+</div>
+</div>
+</div>
+<!-- Main Workspace Bento Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column: Input Channels & Patch Selection (6 cols on lg) -->
+<div class="lg:col-span-6 flex flex-col gap-space-lg">
+<!-- Interactive Dropzone -->
+<div class="bg-cream-surface rounded-xl p-space-lg border border-cream-border shadow-xs">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-title-sm text-title-sm text-dark-title flex items-center gap-1.5 font-semibold">
+<span class="material-symbols-outlined text-[18px] text-brand-terracotta">file_upload</span>
+              Unggah Patch Multiband (.npy)
+            </span>
+<span class="font-caption-mono text-caption-mono text-dark-sub bg-white border border-cream-border px-2 py-0.5 rounded">
+              Dimensi 64×64×7
+            </span>
+</div>
+<div class="relative group cursor-pointer bg-white hover:bg-cream-muted/50 border-2 border-dashed border-cream-dashed hover:border-brand-terracotta transition-all rounded-lg p-space-xl flex flex-col items-center justify-center text-center" id="dropzone">
+<input accept=".npy" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" id="fileInput" type="file"/>
+<div class="w-12 h-12 rounded-full bg-cream-surface border border-cream-border flex items-center justify-center text-brand-terracotta mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<p class="font-title-sm text-title-sm text-dark-title mb-0.5">
+              Drop file patch <code class="font-label-mono text-brand-terracotta font-semibold">.npy</code> di sini
+            </p>
+<p class="font-body-sm text-body-sm text-dark-sub">
+              atau klik untuk memilih dari perangkat lokal (Float32 / UINT16)
+            </p>
+</div>
+</div>
+<!-- Sample Patches Selection -->
+<div class="bg-cream-surface rounded-xl p-space-lg border border-cream-border shadow-xs">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-title-sm text-title-sm text-dark-title flex items-center gap-1.5 font-semibold">
+<span class="material-symbols-outlined text-[18px] text-brand-terracotta">collections_bookmark</span>
+              Pilih Contoh Patch Pengujian
+            </span>
+<span class="font-caption-mono text-caption-mono text-dark-sub bg-white px-2 py-0.5 rounded border border-cream-border">
+              Dataset Independen
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-dark-sub mb-space-md">
+            Pilih patch sampel terverifikasi dari region Muara Jawa, Sangasanga, dan Loa Kulu untuk melihat performa model secara langsung:
+          </p>
+<div class="space-y-space-xs" id="patchSelectorGroup">
+<!-- Patch Item 1 -->
+<button class="patch-btn w-full text-left p-space-sm rounded-lg bg-white border border-brand-terracotta/40 shadow-xs transition-all flex items-center justify-between group" id="btn-tambang-1" onclick="selectPatch('tambang-1')">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-3 h-3 rounded-full bg-brand-terracotta flex-shrink-0"></div>
+<div class="min-w-0 truncate">
+<div class="font-label-mono text-label-mono text-dark-title font-semibold truncate">demo_1_Tambang.npy</div>
+<div class="font-caption-mono text-caption-mono text-dark-sub flex items-center gap-2">
+<span>Label: <strong class="text-dark-title">Tambang</strong></span>
+<span>•</span>
+<span class="text-brand-forest font-semibold">Prediksi: Tambang</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-brand-terracotta opacity-100 flex-shrink-0">check_circle</span>
+</button>
+<!-- Patch Item 2 -->
+<button class="patch-btn w-full text-left p-space-sm rounded-lg bg-cream-muted/60 border border-transparent hover:bg-white hover:border-cream-border-dark transition-all flex items-center justify-between group" id="btn-sawit-1" onclick="selectPatch('sawit-1')">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-3 h-3 rounded-full bg-brand-blue flex-shrink-0"></div>
+<div class="min-w-0 truncate">
+<div class="font-label-mono text-label-mono text-dark-title truncate">demo_2_Sawit.npy</div>
+<div class="font-caption-mono text-caption-mono text-dark-sub flex items-center gap-2">
+<span>Label: <strong class="text-dark-title">Sawit</strong></span>
+<span>•</span>
+<span class="text-brand-forest">Prediksi: Sawit</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-dark-sub opacity-0 group-hover:opacity-60 flex-shrink-0">radio_button_unchecked</span>
+</button>
+<!-- Patch Item 3 -->
+<button class="patch-btn w-full text-left p-space-sm rounded-lg bg-cream-muted/60 border border-transparent hover:bg-white hover:border-cream-border-dark transition-all flex items-center justify-between group" id="btn-hutan-1" onclick="selectPatch('hutan-1')">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-3 h-3 rounded-full bg-brand-forest flex-shrink-0"></div>
+<div class="min-w-0 truncate">
+<div class="font-label-mono text-label-mono text-dark-title truncate">demo_3_Hutan.npy</div>
+<div class="font-caption-mono text-caption-mono text-dark-sub flex items-center gap-2">
+<span>Label: <strong class="text-dark-title">Hutan</strong></span>
+<span>•</span>
+<span class="text-brand-forest">Prediksi: Hutan</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-dark-sub opacity-0 group-hover:opacity-60 flex-shrink-0">radio_button_unchecked</span>
+</button>
+<!-- Patch Item 4 (Misclassified) -->
+<button class="patch-btn w-full text-left p-space-sm rounded-lg bg-cream-muted/60 border border-transparent hover:bg-white hover:border-cream-border-dark transition-all flex items-center justify-between group" id="btn-permukiman-err" onclick="selectPatch('permukiman-err')">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-3 h-3 rounded-full bg-dark-sub flex-shrink-0"></div>
+<div class="min-w-0 truncate">
+<div class="font-label-mono text-label-mono text-dark-title truncate">demo_4_Permukiman.npy</div>
+<div class="font-caption-mono text-caption-mono text-dark-sub flex items-center gap-2">
+<span>Label: <strong class="text-dark-title">Permukiman</strong></span>
+<span>•</span>
+<span class="text-brand-terracotta font-semibold">Prediksi: Tambang (False Pos)</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-dark-sub opacity-0 group-hover:opacity-60 flex-shrink-0">radio_button_unchecked</span>
+</button>
+<!-- Patch Item 5 (Misclassified) -->
+<button class="patch-btn w-full text-left p-space-sm rounded-lg bg-cream-muted/60 border border-transparent hover:bg-white hover:border-cream-border-dark transition-all flex items-center justify-between group" id="btn-tambang-err" onclick="selectPatch('tambang-err')">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-3 h-3 rounded-full bg-brand-terracotta flex-shrink-0"></div>
+<div class="min-w-0 truncate">
+<div class="font-label-mono text-label-mono text-dark-title truncate">demo_5_Tambang.npy</div>
+<div class="font-caption-mono text-caption-mono text-dark-sub flex items-center gap-2">
+<span>Label: <strong class="text-dark-title">Tambang</strong></span>
+<span>•</span>
+<span class="text-brand-terracotta font-semibold">Prediksi: Permukiman (Tanah Terbuka)</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-dark-sub opacity-0 group-hover:opacity-60 flex-shrink-0">radio_button_unchecked</span>
+</button>
+</div>
+</div>
+<!-- RGB Patch Visualization Canvas -->
+<div class="bg-cream-surface rounded-xl p-space-lg border border-cream-border shadow-xs">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-title-sm text-title-sm text-dark-title flex items-center gap-1.5 font-semibold">
+<span class="material-symbols-outlined text-[18px] text-brand-terracotta">grain</span>
+              Visualisasi Patch RGB (B4, B3, B2)
+            </span>
+<span class="font-caption-mono text-caption-mono text-dark-sub bg-white border border-cream-border px-2 py-0.5 rounded">
+              Resolusi Penuh 10m/px
+            </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md items-center">
+<!-- Magnified Canvas Preview Simulation -->
+<div class="relative w-full aspect-square bg-cream-muted rounded-lg overflow-hidden flex items-center justify-center p-2 border border-cream-border shadow-inner">
+<img class="w-full h-full object-cover rounded image-rendering-pixelated" data-alt="Satellite RGB true color Sentinel-2 patch of an open-pit coal mine in East Kalimantan showing dark grey excavation pits, terracotta reddish bare earth benches, and surrounding tropical vegetation canopy, crisp 64x64 pixel sensor fidelity enlarged." id="patchPreviewImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpkGkTZsLruqWkWts3xTGsG89G7EcVOmtaOXCcnNDn9_SSF4skj05i_UpW5x48nk3LmX3rkaxBBprg7iF_zkZ1lNCjmiUBVvGLvKK_SLGo5GnxqOpk8-ZVNTvfz4qIKgZKNPbzvqRmrdKyO_kHRUGnmtDvWmCwIotyj9wLGNKI93A76eHD19cVe8s_u0urZWFWAcZbBupfOETmfHfCvTMvf3hr-CFRkBRc5dohHDB9"/>
+<!-- GIS Overlay reticle -->
+<div class="absolute inset-0 pointer-events-none p-3 flex flex-col justify-between">
+<div class="flex justify-between items-center text-dark-title font-caption-mono text-caption-mono bg-white/90 border border-cream-border px-1.5 py-0.5 rounded shadow-xs">
+<span class="font-semibold">64 px</span>
+<span id="coordBadge">0°33'12"S 117°04'51"E</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="w-8 h-8 rounded-bl-sm border-b-2 border-l-2 border-brand-terracotta"></div>
+<span class="font-caption-mono text-caption-mono text-dark-body bg-white/90 border border-cream-border px-1 rounded shadow-xs">Scale: 640m²</span>
+</div>
+</div>
+</div>
+<!-- Spectral Band Array Metadata -->
+<div class="flex flex-col gap-space-xs font-label-mono text-label-mono">
+<div class="text-dark-sub font-caption-mono text-caption-mono uppercase tracking-wider mb-1 font-semibold">
+                Kanal Spektral Aktif (7 Band)
+              </div>
+<div class="p-1.5 rounded bg-white border border-cream-border flex items-center justify-between shadow-2xs">
+<span class="text-dark-title font-medium">B2 Blue (490 nm)</span>
+<span class="text-brand-blue font-semibold">Refl: 0.114</span>
+</div>
+<div class="p-1.5 rounded bg-white border border-cream-border flex items-center justify-between shadow-2xs">
+<span class="text-dark-title font-medium">B3 Green (560 nm)</span>
+<span class="text-brand-forest font-semibold">Refl: 0.128</span>
+</div>
+<div class="p-1.5 rounded bg-white border border-cream-border flex items-center justify-between shadow-2xs">
+<span class="text-dark-title font-medium">B4 Red (665 nm)</span>
+<span class="text-brand-terracotta font-semibold">Refl: 0.185</span>
+</div>
+<div class="p-1.5 rounded bg-white border border-cream-border flex items-center justify-between shadow-2xs">
+<span class="text-dark-title font-medium">B8 NIR (842 nm)</span>
+<span class="text-brand-forest font-semibold">Refl: 0.092</span>
+</div>
+<div class="p-1.5 rounded bg-white border border-cream-border flex items-center justify-between shadow-2xs">
+<span class="text-dark-title font-medium">B11 SWIR-1 (1610 nm)</span>
+<span class="text-brand-terracotta font-semibold">Refl: 0.298</span>
+</div>
+<div class="p-1.5 rounded bg-white border border-cream-border flex items-center justify-between shadow-2xs">
+<span class="text-dark-title font-medium">B12 SWIR-2 (2190 nm)</span>
+<span class="text-brand-terracotta font-semibold">Refl: 0.312</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Inference Output & Model Telemetry (6 cols on lg) -->
+<div class="lg:col-span-6 flex flex-col gap-space-lg">
+<!-- Main Model Prediction Card -->
+<div class="bg-cream-surface rounded-xl p-space-lg border border-cream-border shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-2.5 h-2.5 rounded-full bg-brand-terracotta"></div>
+<h2 class="font-headline-md text-headline-md text-dark-title font-bold">
+                  Hasil Prediksi Model CNN
+                </h2>
+</div>
+<span class="font-caption-mono text-caption-mono text-dark-body bg-white border border-cream-border px-2 py-0.5 rounded shadow-2xs">
+                Inferensi: 42ms
+              </span>
+</div>
+<!-- Big Prediction Class Display -->
+<div class="bg-white rounded-xl p-space-lg mb-space-lg border border-cream-border shadow-xs flex items-center justify-between">
+<div>
+<span class="font-caption-mono text-caption-mono text-dark-sub uppercase tracking-wider block font-medium">
+                  Kelas Terklasifikasi
+                </span>
+<div class="font-display text-display text-brand-terracotta mt-0.5 font-bold" id="predClassLabel">
+                  Tambang Batubara
+                </div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-body-sm text-body-sm text-dark-sub">Label Verifikasi:</span>
+<span class="px-2 py-0.5 rounded bg-cream-surface border border-cream-border text-brand-forest font-caption-mono text-caption-mono font-medium" id="trueClassBadge">
+                    Tambang (Sesuai)
+                  </span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-caption-mono text-caption-mono text-dark-sub uppercase tracking-wider block font-medium">
+                  Tingkat Keyakinan
+                </span>
+<div class="font-metric-num text-metric-num text-dark-title mt-0.5 font-bold" id="predConfidenceVal">
+                  94.8%
+                </div>
+<div class="font-caption-mono text-caption-mono text-brand-forest font-semibold">
+                  Sangat Tinggi
+                </div>
+</div>
+</div>
+<!-- Softmax Probability Distribution Stacked Bars -->
+<div class="space-y-space-md mb-space-lg">
+<span class="font-title-sm text-title-sm text-dark-title block font-semibold">
+                Distribusi Probabilitas Softmax (4 Kelas)
+              </span>
+<!-- Class 1: Tambang -->
+<div>
+<div class="flex items-center justify-between font-label-mono text-label-mono mb-1">
+<span class="flex items-center gap-2 text-dark-title font-medium">
+<span class="w-2.5 h-2.5 rounded bg-brand-terracotta"></span>
+                    Tambang
+                  </span>
+<span class="text-dark-title font-bold" id="probTambangText">94.8%</span>
+</div>
+<div class="w-full h-2.5 bg-cream-border-dark/60 rounded-full overflow-hidden">
+<div class="h-full bg-brand-terracotta transition-all duration-500 rounded-full" id="probTambangBar" style="width: 94.8%;"></div>
+</div>
+</div>
+<!-- Class 2: Kelapa Sawit -->
+<div>
+<div class="flex items-center justify-between font-label-mono text-label-mono mb-1">
+<span class="flex items-center gap-2 text-dark-title font-medium">
+<span class="w-2.5 h-2.5 rounded bg-brand-blue"></span>
+                    Kelapa Sawit
+                  </span>
+<span class="text-dark-body font-semibold" id="probSawitText">3.2%</span>
+</div>
+<div class="w-full h-2.5 bg-cream-border-dark/60 rounded-full overflow-hidden">
+<div class="h-full bg-brand-blue transition-all duration-500 rounded-full" id="probSawitBar" style="width: 3.2%;"></div>
+</div>
+</div>
+<!-- Class 3: Hutan -->
+<div>
+<div class="flex items-center justify-between font-label-mono text-label-mono mb-1">
+<span class="flex items-center gap-2 text-dark-title font-medium">
+<span class="w-2.5 h-2.5 rounded bg-brand-forest"></span>
+                    Hutan Alami
+                  </span>
+<span class="text-dark-body font-semibold" id="probHutanText">0.6%</span>
+</div>
+<div class="w-full h-2.5 bg-cream-border-dark/60 rounded-full overflow-hidden">
+<div class="h-full bg-brand-forest transition-all duration-500 rounded-full" id="probHutanBar" style="width: 0.6%;"></div>
+</div>
+</div>
+<!-- Class 4: Permukiman -->
+<div>
+<div class="flex items-center justify-between font-label-mono text-label-mono mb-1">
+<span class="flex items-center gap-2 text-dark-title font-medium">
+<span class="w-2.5 h-2.5 rounded bg-dark-sub"></span>
+                    Permukiman / Tanah Terbuka
+                  </span>
+<span class="text-dark-body font-semibold" id="probPermukimanText">1.4%</span>
+</div>
+<div class="w-full h-2.5 bg-cream-border-dark/60 rounded-full overflow-hidden">
+<div class="h-full bg-dark-sub transition-all duration-500 rounded-full" id="probPermukimanBar" style="width: 1.4%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Run Inference Button -->
+<button class="w-full h-11 rounded-lg bg-brand-terracotta hover:bg-brand-terracotta-hover text-white font-headline-md text-headline-md flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.99] font-semibold" id="btnRunInference" onclick="triggerInference()">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+            Jalankan Inferensi
+          </button>
+</div>
+<!-- Model Specification Card -->
+<div class="bg-cream-surface rounded-xl p-space-lg border border-cream-border shadow-xs">
+<div class="flex items-center gap-space-xs mb-space-sm">
+<span class="material-symbols-outlined text-[18px] text-brand-terracotta">memory</span>
+<h3 class="font-title-sm text-title-sm text-dark-title font-bold">
+              Spesifikasi Arsitektur &amp; Validasi
+            </h3>
+</div>
+<div class="grid grid-cols-2 gap-space-sm mb-space-sm">
+<div class="bg-white border border-cream-border p-space-sm rounded-lg shadow-2xs">
+<span class="font-caption-mono text-caption-mono text-dark-sub block font-medium">Akurasi Uji Murni</span>
+<span class="font-metric-num text-headline-lg text-brand-forest font-bold">92.3%</span>
+<span class="font-caption-mono text-caption-mono text-dark-body block">108 / 117 Patch Wilayah Baru</span>
+</div>
+<div class="bg-white border border-cream-border p-space-sm rounded-lg shadow-2xs">
+<span class="font-caption-mono text-caption-mono text-dark-sub block font-medium">F1-Score Tambang</span>
+<span class="font-metric-num text-headline-lg text-brand-terracotta font-bold">0.95</span>
+<span class="font-caption-mono text-caption-mono text-dark-body block">Presisi 94% / Recall 96%</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-dark-body leading-relaxed">
+            Custom CNN tanpa transfer-learning, dikonfigurasi 3 blok konvolusi 2D + Batch Normalization + Dropout (0.3). Dioptimasi memakai AdamW (lr: 0.0003) untuk memisahkan fitur SWIR (B11, B12) yang sensitif terhadap batuan bara teroksidasi dan kolam galian pascatambang.
+          </p>
+</div>
+<!-- External Integration & Open Science Links -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<a class="flex items-center justify-between p-space-md rounded-xl bg-cream-surface border border-cream-border hover:border-cream-border-dark hover:bg-white transition-all shadow-xs group" href="https://huggingface.co/spaces" rel="noopener noreferrer" target="_blank">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-white border border-cream-border flex items-center justify-center text-brand-terracotta shadow-2xs">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-dark-title group-hover:text-brand-terracotta transition-colors font-semibold">
+                  HF Space
+                </div>
+<div class="font-caption-mono text-caption-mono text-dark-sub">
+                  Gradio Live App
+                </div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-dark-sub group-hover:text-brand-terracotta group-hover:translate-x-0.5 transition-all">
+              north_east
+            </span>
+</a>
+<a class="flex items-center justify-between p-space-md rounded-xl bg-cream-surface border border-cream-border hover:border-cream-border-dark hover:bg-white transition-all shadow-xs group" href="#">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-white border border-cream-border flex items-center justify-center text-brand-forest shadow-2xs">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-dark-title group-hover:text-brand-forest transition-colors font-semibold">
+                  Model Weights
+                </div>
+<div class="font-caption-mono text-caption-mono text-dark-sub">
+                  PyTorch .pth &amp; Notebook
+                </div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-dark-sub group-hover:text-brand-forest group-hover:translate-x-0.5 transition-all">
+              download
+            </span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Sample Data Registry
+  const patchDatabase = {
+    'tambang-1': {
+      name: 'demo_1_Tambang.npy',
+      predClass: 'Tambang Batubara',
+      trueClass: 'Tambang (Sesuai)',
+      isCorrect: true,
+      confidence: '94.8%',
+      probs: { tambang: 94.8, sawit: 3.2, hutan: 0.6, permukiman: 1.4 },
+      coord: "0°33'12\"S 117°04'51\"E",
+      altPrompt: "Aerial Sentinel-2 satellite view of an open cut coal pit excavation in East Kalimantan, stark black exposed coal seams, terracotta colored earth layers, surrounding tropical forest border, high pixel contrast."
+    },
+    'sawit-1': {
+      name: 'demo_2_Sawit.npy',
+      predClass: 'Kelapa Sawit',
+      trueClass: 'Sawit (Sesuai)',
+      isCorrect: true,
+      confidence: '89.4%',
+      probs: { tambang: 2.1, sawit: 89.4, hutan: 6.8, permukiman: 1.7 },
+      coord: "0°28'40\"S 117°12'03\"E",
+      altPrompt: "Overhead remote sensing view of an oil palm plantation grid in Kalimantan, uniform geometrical rows of palm canopy, vivid yellowish-green tones, dirt access pathways, Sentinel-2 spectral fidelity."
+    },
+    'hutan-1': {
+      name: 'demo_3_Hutan.npy',
+      predClass: 'Hutan Alami',
+      trueClass: 'Hutan (Sesuai)',
+      isCorrect: true,
+      confidence: '97.2%',
+      probs: { tambang: 0.3, sawit: 2.1, hutan: 97.2, permukiman: 0.4 },
+      coord: "0°42'18\"S 116°58'34\"E",
+      altPrompt: "Dense tropical rainforest canopy satellite imagery in East Borneo, undulating dark emerald green crowns, river meander, unfragmented wilderness texture, Sentinel-2 L2A composite."
+    },
+    'permukiman-err': {
+      name: 'demo_4_Permukiman.npy',
+      predClass: 'Tambang Batubara',
+      trueClass: 'Permukiman (Salah Klasifikasi)',
+      isCorrect: false,
+      confidence: '61.5%',
+      probs: { tambang: 61.5, sawit: 4.3, hutan: 1.8, permukiman: 32.4 },
+      coord: "0°31'09\"S 117°07'22\"E",
+      altPrompt: "Suburban settlement in Samarinda outskirts with tin roofs and freshly cleared reddish dirt foundation ground, high spectral reflection mimicking mine spoil, satellite view."
+    },
+    'tambang-err': {
+      name: 'demo_5_Tambang.npy',
+      predClass: 'Permukiman / Terbuka',
+      trueClass: 'Tambang (Salah Klasifikasi)',
+      isCorrect: false,
+      confidence: '58.2%',
+      probs: { tambang: 38.6, sawit: 2.0, hutan: 1.2, permukiman: 58.2 },
+      coord: "0°35'55\"S 117°02'19\"E",
+      altPrompt: "High-angle satellite observation of newly cleared clay overburden on coal mining boundary, flat pale compacted earth mimicking bare construction ground, isolated pocket in East Kalimantan."
+    }
+  };
+
+  let activePatchKey = 'tambang-1';
+
+  function selectPatch(key) {
+    activePatchKey = key;
+    const data = patchDatabase[key];
+    if (!data) return;
+
+    // Reset all buttons style
+    document.querySelectorAll('.patch-btn').forEach(btn => {
+      btn.classList.remove('bg-white', 'border-brand-terracotta/40', 'shadow-xs');
+      btn.classList.add('bg-cream-muted/60', 'border-transparent');
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (icon) {
+        icon.textContent = 'radio_button_unchecked';
+        icon.classList.remove('opacity-100', 'text-brand-terracotta');
+        icon.classList.add('opacity-0', 'text-dark-sub');
+      }
+    });
+
+    // Highlight selected button
+    const activeBtn = document.getElementById(`btn-${key}`);
+    if (activeBtn) {
+      activeBtn.classList.remove('bg-cream-muted/60', 'border-transparent');
+      activeBtn.classList.add('bg-white', 'border-brand-terracotta/40', 'shadow-xs');
+      const icon = activeBtn.querySelector('.material-symbols-outlined');
+      if (icon) {
+        icon.textContent = 'check_circle';
+        icon.classList.remove('opacity-0', 'text-dark-sub');
+        icon.classList.add('opacity-100', 'text-brand-terracotta');
+      }
+    }
+
+    // Update Patch preview metadata
+    const coordEl = document.getElementById('coordBadge');
+    if (coordEl) coordEl.textContent = data.coord;
+
+    // Update Image Alt for prompt consistency
+    const imgEl = document.getElementById('patchPreviewImg');
+    if (imgEl) {
+      imgEl.setAttribute('data-alt', data.altPrompt);
+    }
+
+    // Trigger instant inference visual feedback
+    applyInference(data);
+  }
+
+  function applyInference(data) {
+    const classEl = document.getElementById('predClassLabel');
+    const confEl = document.getElementById('predConfidenceVal');
+    const badgeEl = document.getElementById('trueClassBadge');
+
+    if (classEl) {
+      classEl.textContent = data.predClass;
+      if (data.predClass.includes('Tambang')) {
+        classEl.className = 'font-display text-display text-brand-terracotta mt-0.5 font-bold';
+      } else if (data.predClass.includes('Sawit')) {
+        classEl.className = 'font-display text-display text-brand-blue mt-0.5 font-bold';
+      } else if (data.predClass.includes('Hutan')) {
+        classEl.className = 'font-display text-display text-brand-forest mt-0.5 font-bold';
+      } else {
+        classEl.className = 'font-display text-display text-dark-title mt-0.5 font-bold';
+      }
+    }
+
+    if (confEl) confEl.textContent = data.confidence;
+
+    if (badgeEl) {
+      badgeEl.textContent = data.trueClass;
+      if (data.isCorrect) {
+        badgeEl.className = 'px-2 py-0.5 rounded bg-cream-surface border border-cream-border text-brand-forest font-caption-mono text-caption-mono font-medium';
+      } else {
+        badgeEl.className = 'px-2 py-0.5 rounded bg-red-50 border border-red-200 text-brand-terracotta font-caption-mono text-caption-mono font-medium';
+      }
+    }
+
+    // Update bars
+    document.getElementById('probTambangBar').style.width = data.probs.tambang + '%';
+    document.getElementById('probTambangText').textContent = data.probs.tambang + '%';
+
+    document.getElementById('probSawitBar').style.width = data.probs.sawit + '%';
+    document.getElementById('probSawitText').textContent = data.probs.sawit + '%';
+
+    document.getElementById('probHutanBar').style.width = data.probs.hutan + '%';
+    document.getElementById('probHutanText').textContent = data.probs.hutan + '%';
+
+    document.getElementById('probPermukimanBar').style.width = data.probs.permukiman + '%';
+    document.getElementById('probPermukimanText').textContent = data.probs.permukiman + '%';
+  }
+
+  function triggerInference() {
+    const btn = document.getElementById('btnRunInference');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span> Memproses Tensor 64×64×7...';
+    btn.classList.add('opacity-75');
+
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">play_arrow</span> Jalankan Inferensi';
+      btn.classList.remove('opacity-75');
+      const data = patchDatabase[activePatchKey];
+      if (data) applyInference(data);
+    }, 450);
+  }
+
+  // Handle Drag & Drop placeholder simulation
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+
+  if (fileInput) {
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        const coordEl = document.getElementById('coordBadge');
+        if (coordEl) coordEl.textContent = "Custom Ingestion: " + file.name.substring(0, 16);
+        triggerInference();
+      }
+    });
+  }
+</script></main></body></html>

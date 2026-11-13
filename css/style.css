@@ -95,7 +95,7 @@ h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
 .leaflet-control-attribution a { color: var(--teks-2); }
 
 /* ===== tata letak umum ===== */
-.aplikasi { display: flex; flex-direction: column; height: 100%; }
+.aplikasi { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
 .atas { flex: none; }
 .halaman { flex: 1; min-height: 0; }
 .halaman[hidden] { display: none !important; }
@@ -109,8 +109,8 @@ h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
 .navigasi svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* halaman peta */
-.halaman-peta { display: grid; grid-template-columns: 1fr 340px; height: 100%; }
-.halaman-peta .panel { border-left: 1px solid var(--garis); min-height: 0; }
+.halaman-peta { display: grid; grid-template-columns: 1fr 340px; grid-template-rows: minmax(0, 1fr); overflow: hidden; }
+.halaman-peta .panel { border-left: 1px solid var(--garis); min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .wadah-peta .cari { position: absolute; top: 12px; left: 56px; z-index: 1000; width: min(340px, calc(100% - 80px)); background: var(--kaca); box-shadow: var(--bayang); }
 
 .legenda-mengambang summary { cursor: pointer; list-style: none; margin: 0; display: flex; justify-content: space-between; gap: 12px; }
@@ -164,9 +164,9 @@ code { font: 12.5px 'JetBrains Mono', monospace; background: var(--panel-2); bor
   .navigasi a { flex-direction: column; gap: 3px; font-size: 11px; padding: 5px 10px; flex: 1; }
   .navigasi a.aktif { background: none; box-shadow: none; color: var(--aksen); }
   .navigasi svg { width: 20px; height: 20px; }
-  .aplikasi { height: auto; min-height: 100%; padding-bottom: 64px; }
+  .aplikasi { height: auto; min-height: 100%; padding-bottom: 64px; overflow: visible; }
 
-  .halaman-peta { display: flex; flex-direction: column; height: auto; }
+  .halaman-peta { display: flex; flex-direction: column; height: auto; overflow: visible; }
   .wadah-peta { height: 58vh; min-height: 360px; flex: none; }
   .wadah-peta .cari { left: 10px; right: 10px; top: 10px; width: auto; }
   .leaflet-top.leaflet-left { top: 56px; }

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-tertiary":"#00391f","on-secondary-container":"#00374d","primary-fixed":"#ffdad4","error-container":"#93000a","surface-variant":"#2e353d","outline-variant":"#5a413c","on-secondary-fixed-variant":"#004c69","surface-container-highest":"#2e353d","surface-container":"#192027","secondary":"#7bd0ff","on-tertiary-fixed":"#002110","on-surface-variant":"#e2beb8","on-error":"#690005","primary-fixed-dim":"#ffb4a6","error":"#ffb4ab","on-secondary":"#00354a","primary-container":"#f95c43","inverse-primary":"#b32a17","surface-tint":"#ffb4a6","secondary-fixed-dim":"#7bd0ff","secondary-fixed":"#c4e7ff","on-tertiary-fixed-variant":"#00522f","secondary-container":"#00a6e0","surface-container-low":"#151c23","inverse-on-surface":"#2a3139","on-surface":"#dce3ed","on-primary-fixed-variant":"#900e01","surface-container-high":"#242b32","tertiary-fixed":"#7afbb1","on-primary":"#670600","on-primary-container":"#5a0500","outline":"#a98984","surface":"#0d141b","on-primary-fixed":"#400200","surface-bright":"#333a42","on-error-container":"#ffdad6","tertiary":"#5cde97","tertiary-container":"#05a665","on-background":"#dce3ed","tertiary-fixed-dim":"#5cde97","surface-dim":"#0d141b","background":"#0d141b","on-tertiary-container":"#00311a","on-secondary-fixed":"#001e2c","inverse-surface":"#dce3ed","surface-container-lowest":"#080f15","primary":"#ffb4a6"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1rem","space-xs":"0.25rem","space-md":"0.75rem","gutter":"0.75rem","margin":"1rem","margin-desktop":"1.25rem","gutter-desktop":"1rem","space-sm":"0.5rem","space-xl":"1.5rem"},"fontFamily":{"headline-lg":["Inter"],"body-md":["Inter"],"title-sm":["Inter"],"body-sm":["Inter"],"headline-md":["Inter"],"label-mono":["JetBrains Mono"],"display":["Inter"],"metric-num":["Inter"],"headline-lg-mobile":["Inter"],"caption-mono":["JetBrains Mono"]},"fontSize":{"headline-lg":["1.5rem",{"lineHeight":"2rem","letterSpacing":"-0.015em","fontWeight":"600"}],"body-md":["0.875rem",{"lineHeight":"1.375rem","letterSpacing":"0","fontWeight":"400"}],"title-sm":["0.875rem",{"lineHeight":"1.25rem","letterSpacing":"0","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.125rem","letterSpacing":"0","fontWeight":"400"}],"headline-md":["1.125rem",{"lineHeight":"1.5rem","letterSpacing":"-0.01em","fontWeight":"600"}],"label-mono":["0.75rem",{"lineHeight":"1rem","letterSpacing":"-0.01em","fontWeight":"500"}],"display":["2rem",{"lineHeight":"2.5rem","letterSpacing":"-0.02em","fontWeight":"600"}],"metric-num":["1.75rem",{"lineHeight":"2rem","letterSpacing":"-0.03em","fontWeight":"600"}],"headline-lg-mobile":["1.25rem",{"lineHeight":"1.75rem","letterSpacing":"-0.01em","fontWeight":"600"}],"caption-mono":["0.6875rem",{"lineHeight":"0.875rem","letterSpacing":"0","fontWeight":"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 h-14 bg-surface-container-lowest border-b border-surface-container-high"><div class="w-full h-full px-space-md flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg flex-shrink-0"><div class="flex items-center gap-space-sm"><div class="flex items-center justify-center w-7 h-7 rounded bg-surface-container-high text-secondary"><span class="material-symbols-outlined text-[18px]">satellite_alt</span></div><div class="flex items-center gap-space-xs"><span class="font-title-sm text-title-sm text-on-surface tracking-tight">Peta Tambang Kaltim</span><span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-caption-mono text-caption-mono border border-surface-container-high">Riset Sentinel-2 &amp; CNN</span></div></div><nav class="flex items-center gap-space-xs h-14" data-active-classes="text-secondary bg-surface-container font-semibold border-b-2 border-secondary"><a class="px-space-md h-full flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" data-path="peta" href="#">Peta</a><a class="px-space-md h-full flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" data-path="demo-model" href="#">Demo Model</a><a aria-current="page" class="px-space-md h-full flex items-center transition-colors text-secondary bg-surface-container font-semibold border-b-2 border-secondary" data-path="tentang" href="#">Tentang</a></nav></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-2.5 text-on-surface-variant text-[16px] pointer-events-none">search</span><input class="w-64 h-8 pl-8 pr-3 bg-surface-container-low border border-surface-container-high rounded text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant/60 focus:outline-none focus:border-secondary transition-colors" placeholder="Cari lokasi, misal: Loa Kulu..." type="text"/></div><div class="flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container-low border border-surface-container-high"><span class="material-symbols-outlined text-secondary text-[16px]">layers</span><span class="font-label-mono text-label-mono text-on-surface-variant">S2-L2A TrueColor</span></div><div class="flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container border border-surface-container-high"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span><span class="font-caption-mono text-caption-mono text-on-surface">Informatika UNMUL</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full max-w-6xl mx-auto px-6 py-8 space-y-12">
+<!-- Hero / Header Research Overview -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-7 space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-surface-container-high border border-surface-container-highest">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-caption-mono text-caption-mono text-tertiary tracking-wide uppercase">Proyek Akhir · Praktikum Kecerdasan Buatan</span>
+</div>
+<h1 class="font-display text-display text-on-surface tracking-tight leading-tight">
+          Mendeteksi Bukaan Tambang Batu Bara Kalimantan Timur dari Citra Satelit
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+          Peta tambang resmi yang tersedia bersumber dari citra 2019, sehingga bukaan baru belum terpetakan. Proyek ini melatih custom CNN untuk mengidentifikasi tambang, sawit, hutan, dan permukiman dari citra Sentinel-2 2024 untuk memetakan indikasi bukaan baru di koridor Samarinda–Loa Kulu.
+        </p>
+<div class="flex flex-wrap items-center gap-3 pt-2">
+<a class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-tertiary text-on-tertiary font-title-sm text-title-sm hover:opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>
+            Lihat Peta 2024
+          </a>
+<a class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high text-on-surface font-title-sm text-title-sm hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">memory</span>
+            Coba Model Demo
+          </a>
+<div class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container font-caption-mono text-caption-mono text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+            S2 L2A · 7 Band Spektral
+          </div>
+</div>
+</div>
+<!-- Stat Cards Bento Box -->
+<div class="lg:col-span-5 flex flex-col gap-3">
+<div class="p-5 rounded-xl bg-surface-container-low shadow-sm hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="font-body-sm text-body-sm">Akurasi Uji Model</span>
+<span class="font-label-mono text-label-mono text-tertiary">+3,4% vs Baseline</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-metric-num text-metric-num text-on-surface font-bold">92,3%</span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">F1-Tambang 0,95</span>
+</div>
+<p class="mt-2 font-caption-mono text-caption-mono text-on-surface-variant">
+            Dievaluasi pada test set independen (117 patch) tanpa kebocoran spasial.
+          </p>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="p-4 rounded-xl bg-surface-container-low shadow-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant block mb-1">Klasifikasi Tutupan</span>
+<span class="font-metric-num text-headline-lg text-on-surface font-semibold block">4 Kelas</span>
+<div class="flex items-center gap-1.5 mt-2 flex-wrap">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="w-2 h-2 rounded-full bg-surface-bright"></span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant ml-1">Mining/Bio</span>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low shadow-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant block mb-1">Sumber &amp; Grid</span>
+<span class="font-metric-num text-headline-lg text-secondary font-semibold block">640 m</span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant block mt-2">
+              4.900 sel inferensi
+            </span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">satellite_alt</span>
+<span class="font-label-mono text-label-mono text-on-surface">Sentinel-2 L2A (2019-2024)</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-tertiary px-2 py-0.5 rounded bg-surface-container">GEE Median Cloudless</span>
+</div>
+</div>
+</section>
+<!-- Methodology Pipeline Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-mono text-label-mono text-secondary px-2 py-0.5 rounded bg-surface-container-high">01</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Alur Kerja Metodologi</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+            Pipeline terintegrasi dari akusisi multitemporal GEE, pra-pengolahan raster, sampai ekstraksi vektor kandidat.
+          </p>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant hidden md:inline-block">5 Tahapan Berurutan</span>
+</div>
+<!-- 5-Step Pipeline Horizontal Grid -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+<!-- Step 1 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between relative group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="w-6 h-6 rounded-full bg-surface-container-high text-secondary flex items-center justify-center font-caption-mono text-caption-mono">1</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">cloud_download</span>
+</div>
+<h3 class="font-title-sm text-title-sm text-on-surface mb-2">Pengumpulan Data GEE</h3>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant leading-relaxed">
+              Komposit median Sentinel-2 L2A 2019–2020 via Google Earth Engine, masking awan SCL &amp; radiometrik.
+            </p>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-highest">
+<span class="font-caption-mono text-caption-mono text-secondary">Koridor Kaltim</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between relative group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="w-6 h-6 rounded-full bg-surface-container-high text-secondary flex items-center justify-center font-caption-mono text-caption-mono">2</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">dataset</span>
+</div>
+<h3 class="font-title-sm text-title-sm text-on-surface mb-2">Pelabelan Multi-Sumber</h3>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant leading-relaxed">
+              Poligon tambang Maus dkk. 2019, ESA WorldCover, serta kelapa sawit dengan batas kemurnian patch ≥ 80%.
+            </p>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-highest">
+<span class="font-caption-mono text-caption-mono text-secondary">855 Patch Murni</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between relative group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="w-6 h-6 rounded-full bg-surface-container-high text-secondary flex items-center justify-center font-caption-mono text-caption-mono">3</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">psychology</span>
+</div>
+<h3 class="font-title-sm text-title-sm text-on-surface mb-2">Pelatihan CNN</h3>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant leading-relaxed">
+              Arsitektur custom CNN 3 blok (Conv2D + MaxPool + Dropout), split wilayah (70/15/15), dan pembobot kelas.
+            </p>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-highest">
+<span class="font-caption-mono text-caption-mono text-tertiary">Adam · Loss Seimbang</span>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between relative group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="w-6 h-6 rounded-full bg-surface-container-high text-secondary flex items-center justify-center font-caption-mono text-caption-mono">4</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">grid_view</span>
+</div>
+<h3 class="font-title-sm text-title-sm text-on-surface mb-2">Prediksi Grid 640 m</h3>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant leading-relaxed">
+              Inferensi spasial skala luas pada 4.900 sel citra 2024 dengan proteksi masking badan air permanen.
+            </p>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-highest">
+<span class="font-caption-mono text-caption-mono text-secondary">279 Indikasi Baru</span>
+</div>
+</div>
+<!-- Step 5 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between relative group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="w-6 h-6 rounded-full bg-surface-container-high text-secondary flex items-center justify-center font-caption-mono text-caption-mono">5</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">verified_user</span>
+</div>
+<h3 class="font-title-sm text-title-sm text-on-surface mb-2">Validasi WorldCover</h3>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant leading-relaxed">
+              Komparasi silang sel kandidat baru terhadap data baseline ESA 2021 untuk mengukur konsistensi temporal.
+            </p>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-highest">
+<span class="font-caption-mono text-caption-mono text-tertiary">Kesesuaian 95%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- CNN Architecture & Spectral Bands Visual Matrix -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+<!-- Architecture Tree -->
+<div class="lg:col-span-6 p-6 rounded-xl bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="font-label-mono text-label-mono text-secondary px-2 py-0.5 rounded bg-surface-container-high">02</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Arsitektur Model (Custom CNN)</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">
+            Dirancang khusus dari nol tanpa transfer-learning untuk memproses 7 band spektral satelit secara simultan.
+          </p>
+<div class="space-y-2">
+<div class="p-2.5 rounded bg-surface-container-highest flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">input</span>
+<span class="font-label-mono text-label-mono text-on-surface">Input Layer</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">64 × 64 × 7 Band</span>
+</div>
+<div class="p-2.5 rounded bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]">view_in_ar</span>
+<span class="font-label-mono text-label-mono text-on-surface">Conv Block 1</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">32 Filters (3×3) + BatchNorm + MaxPool</span>
+</div>
+<div class="p-2.5 rounded bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]">view_in_ar</span>
+<span class="font-label-mono text-label-mono text-on-surface">Conv Block 2</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">64 Filters (3×3) + Dropout 0.25</span>
+</div>
+<div class="p-2.5 rounded bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]">view_in_ar</span>
+<span class="font-label-mono text-label-mono text-on-surface">Conv Block 3</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">128 Filters (3×3) + Global Avg Pool</span>
+</div>
+<div class="p-2.5 rounded bg-surface-container-highest flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[16px]">output</span>
+<span class="font-label-mono text-label-mono text-on-surface">Dense Softmax Output</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-primary font-semibold">4 Probabilitas Kelas</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-surface-container-high flex items-center justify-between text-on-surface-variant font-caption-mono text-caption-mono">
+<span>Total Parameter: ~142.800</span>
+<span>Waktu Latih: 8m 42s (T4 GPU)</span>
+</div>
+</div>
+<!-- Spectral Band Breakdown & Data Distribution -->
+<div class="lg:col-span-6 p-6 rounded-xl bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Band Spektral yang Digunakan</h3>
+<span class="font-caption-mono text-caption-mono text-secondary">Sentinel-2 L2A</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">
+            Kombinasi band optik tampak, Red-Edge, NIR, dan SWIR untuk memisahkan tanda spektral tanah galian terbuka dengan vegetasi kanopi.
+          </p>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+<div class="p-3 rounded bg-surface-container">
+<span class="font-label-mono text-label-mono text-secondary block font-semibold">B2 · Blue</span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">490 nm (10 m)</span>
+</div>
+<div class="p-3 rounded bg-surface-container">
+<span class="font-label-mono text-label-mono text-secondary block font-semibold">B3 · Green</span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">560 nm (10 m)</span>
+</div>
+<div class="p-3 rounded bg-surface-container">
+<span class="font-label-mono text-label-mono text-secondary block font-semibold">B4 · Red</span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">665 nm (10 m)</span>
+</div>
+<div class="p-3 rounded bg-surface-container">
+<span class="font-label-mono text-label-mono text-tertiary block font-semibold">B8 · NIR</span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">842 nm (10 m)</span>
+</div>
+<div class="p-3 rounded bg-surface-container">
+<span class="font-label-mono text-label-mono text-primary block font-semibold">B11 · SWIR-1</span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">1610 nm (20 m)</span>
+</div>
+<div class="p-3 rounded bg-surface-container">
+<span class="font-label-mono text-label-mono text-primary block font-semibold">B12 · SWIR-2</span>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant">2190 nm (20 m)</span>
+</div>
+</div>
+<div class="mt-4 p-3 rounded bg-surface-container-highest">
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface mb-1.5">
+<span>Rasio Komposisi Data Latih</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">855 Patch</span>
+</div>
+<div class="w-full h-2 rounded bg-surface-container flex overflow-hidden">
+<div class="h-full bg-primary" style="width: 32%" title="Tambang 32%"></div>
+<div class="h-full bg-secondary" style="width: 26%" title="Sawit 26%"></div>
+<div class="h-full bg-tertiary" style="width: 24%" title="Hutan 24%"></div>
+<div class="h-full bg-surface-bright" style="width: 18%" title="Permukiman 18%"></div>
+</div>
+<div class="flex items-center justify-between font-caption-mono text-caption-mono text-on-surface-variant mt-2">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span>Tambang (274)</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span>Sawit (222)</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Hutan (205)</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-surface-bright"></span>Kota (154)</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-high flex items-center justify-between text-on-surface-variant font-caption-mono text-caption-mono">
+<span>Normalisasi: Min-Max (0–10.000 DN)</span>
+<span>Augmentasi: Random Flip &amp; 90° Rot</span>
+</div>
+</div>
+</section>
+<!-- Hasil Validasi & Evaluasi Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-mono text-label-mono text-secondary px-2 py-0.5 rounded bg-surface-container-high">03</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Hasil Validasi &amp; Evaluasi Model</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+            Matriks performa per-kelas terhadap test set murni dan perbandingan silang terhadap land cover ESA WorldCover 2021.
+          </p>
+</div>
+</div>
+<!-- High-Precision Analytical GIS Table -->
+<div class="w-full overflow-x-auto rounded-xl bg-surface-container-low shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high text-on-surface-variant font-caption-mono text-caption-mono tracking-wider uppercase">
+<th class="py-3 px-4">Kelas Model</th>
+<th class="py-3 px-4">Kelas Dominan WorldCover 2021</th>
+<th class="py-3 px-4 text-center">F1-Score</th>
+<th class="py-3 px-4 text-center">Precision</th>
+<th class="py-3 px-4 text-center">Recall</th>
+<th class="py-3 px-4 text-right">Tingkat Kesesuaian</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3.5 px-4 font-semibold flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary flex-shrink-0"></span>
+<span>Tambang</span>
+</td>
+<td class="py-3.5 px-4 font-caption-mono text-caption-mono text-on-surface-variant">
+                Bare / Sparse vegetation (Lahan terbuka)
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface font-semibold">
+                0,95
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface-variant">
+                0,96
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface-variant">
+                0,94
+              </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-tertiary font-label-mono text-caption-mono font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Tinggi
+                </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container transition-colors bg-surface-container-lowest/50">
+<td class="py-3.5 px-4 font-semibold flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary flex-shrink-0"></span>
+<span>Sawit</span>
+</td>
+<td class="py-3.5 px-4 font-caption-mono text-caption-mono text-on-surface-variant">
+                Cropland / Tree cover heterogen
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface font-semibold">
+                0,93
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface-variant">
+                0,91
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface-variant">
+                0,95
+              </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-tertiary font-label-mono text-caption-mono font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Tinggi
+                </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3.5 px-4 font-semibold flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary flex-shrink-0"></span>
+<span>Hutan</span>
+</td>
+<td class="py-3.5 px-4 font-caption-mono text-caption-mono text-on-surface-variant">
+                Tree cover rapat (Kanopi lebat)
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface font-semibold">
+                0,91
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface-variant">
+                0,93
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface-variant">
+                0,89
+              </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-tertiary font-label-mono text-caption-mono font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Tinggi
+                </span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container transition-colors bg-surface-container-lowest/50">
+<td class="py-3.5 px-4 font-semibold flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-bright flex-shrink-0"></span>
+<span>Permukiman</span>
+</td>
+<td class="py-3.5 px-4 font-caption-mono text-caption-mono text-on-surface-variant">
+                Built-up / Infrastruktur jalan
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface font-semibold">
+                0,86
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface-variant">
+                0,84
+              </td>
+<td class="py-3.5 px-4 text-center font-label-mono text-label-mono text-on-surface-variant">
+                0,88
+              </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-secondary font-label-mono text-caption-mono font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Sedang
+                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Keterbatasan Riset (Caution Section) -->
+<section class="p-6 rounded-xl bg-surface-container-low shadow-sm">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">warning</span>
+</div>
+<div class="space-y-3 flex-1">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface">Keterbatasan &amp; Batasan Analisis Riset</h3>
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-caption-mono text-caption-mono">
+              Academic Disclaimer
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Metode pemodelan berbasis citra satelit dan CNN ini dirancang untuk mendeteksi anomali spektral dan memiliki beberapa batasan kontekstual yang wajib diperhatikan:
+          </p>
+<ul class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+<li class="p-4 rounded-lg bg-surface-container">
+<span class="font-title-sm text-title-sm text-on-surface block mb-1">Efek Mixed Pixel</span>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant leading-relaxed">
+                Resolusi grid 640×640 m dapat menangkap efek campuran piksel pada sempadan tepian bukaan tambang yang berbatasan langsung dengan hutan sekunder.
+              </p>
+</li>
+<li class="p-4 rounded-lg bg-surface-container">
+<span class="font-title-sm text-title-sm text-on-surface block mb-1">Kemiripan Spektral</span>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant leading-relaxed">
+                Area bukaan tanah lainnya seperti persiapan lahan perkebunan, land clearing infrastruktur, atau galian tanah liat dapat terdeteksi sebagai kandidat bukaan.
+              </p>
+</li>
+<li class="p-4 rounded-lg bg-surface-container">
+<span class="font-title-sm text-title-sm text-on-surface block mb-1">Status Indikasi</span>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant leading-relaxed">
+                Hasil prediksi bersifat indikasi awal tutupan lahan permukaan dan membutuhkan verifikasi visual UAV atau inspeksi lapangan (ground check) sebelum tindakan administratif.
+              </p>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Resource & Reproducibility Links Grid -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-mono text-label-mono text-secondary px-2 py-0.5 rounded bg-surface-container-high">04</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Artefak &amp; Repositori Riset</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+            Seluruh kode pipeline, bobot model tersimpan, dan dataset ekstraksi terbuka untuk kebutuhan reproduksi riset akademis.
+          </p>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Notebook 1 -->
+<a class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between hover:bg-surface-container transition-all group" href="#">
+<div class="flex items-start justify-between mb-3">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant group-hover:text-secondary transition-colors">GEE · Python</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface group-hover:text-secondary transition-colors">Notebook 1: Ekstraksi Patch GEE</h4>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant mt-1">
+              Script sampling otomatis Sentinel-2 2019-2020 via Google Earth Engine API dan filtering kemurnian kelas.
+            </p>
+</div>
+<div class="mt-4 flex items-center justify-between font-caption-mono text-caption-mono text-on-surface-variant">
+<span>jupyter/gee_extract.ipynb</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
+<!-- Notebook 2 -->
+<a class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between hover:bg-surface-container transition-all group" href="#">
+<div class="flex items-start justify-between mb-3">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">model_training</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant group-hover:text-tertiary transition-colors">TensorFlow / Keras</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface group-hover:text-tertiary transition-colors">Notebook 2: Pelatihan Model Custom CNN</h4>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant mt-1">
+              Pelatihan arsitektur conv, loss weighted, callbacks early stopping, matriks konfusi, dan kurva evaluasi.
+            </p>
+</div>
+<div class="mt-4 flex items-center justify-between font-caption-mono text-caption-mono text-on-surface-variant">
+<span>models/train_cnn.ipynb</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
+<!-- Notebook 3 -->
+<a class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between hover:bg-surface-container transition-all group" href="#">
+<div class="flex items-start justify-between mb-3">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">map</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant group-hover:text-primary transition-colors">GeoPandas / Rasterio</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface group-hover:text-primary transition-colors">Notebook 3: Pemetaan Grid Spasial 2024</h4>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant mt-1">
+              Inferensi grid tile 640 m pada citra Sentinel-2 2024 dan komparasi spasial poligon historis.
+            </p>
+</div>
+<div class="mt-4 flex items-center justify-between font-caption-mono text-caption-mono text-on-surface-variant">
+<span>gis/inference_2024.ipynb</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
+<!-- Hugging Face Space Demo -->
+<a class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between hover:bg-surface-container transition-all group" href="#">
+<div class="flex items-start justify-between mb-3">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">deployed_code</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-on-surface-variant group-hover:text-secondary transition-colors">Live Inference</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface group-hover:text-secondary transition-colors">Hugging Face Space Demo</h4>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant mt-1">
+              Aplikasi web interaktif untuk mengunggah GeoTIFF 7-band dan memvisualisasikan heatmap aktivasi model.
+            </p>
+</div>
+<div class="mt-4 flex items-center justify-between font-caption-mono text-caption-mono text-on-surface-variant">
+<span>hf.co/spaces/kaltim-mine-cnn</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
+<!-- GitHub Repository -->
+<a class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between hover:bg-surface-container transition-all group sm:col-span-2 lg:col-span-2" href="#">
+<div class="flex items-start justify-between mb-3">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</div>
+<span class="font-caption-mono text-caption-mono text-tertiary">Open Source · MIT License</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface group-hover:text-tertiary transition-colors">Repositori GitHub Riset &amp; Data Pipeline</h4>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant mt-1">
+              Sumber kode lengkap untuk pipeline ETL, preprocessing band spektral, bobot model terkompilasi (.onnx/.h5), serta dokumentasi komparasi metrik.
+            </p>
+</div>
+<div class="mt-4 flex items-center justify-between font-caption-mono text-caption-mono text-on-surface-variant">
+<span>github.com/informatika-unmul/kaltim-mine-sentinel-cnn</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">open_in_new</span>
+</div>
+</a>
+</div>
+</section>
+<!-- Academic Metadata & Footer Citation -->
+<footer class="pt-8 border-t border-surface-container-high flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-on-surface-variant">
+<div class="space-y-1">
+<p class="font-body-sm text-body-sm text-on-surface">
+          Proyek Akhir Praktikum Kecerdasan Buatan · Program Studi Informatika, Universitas Mulawarman
+        </p>
+<p class="font-caption-mono text-caption-mono text-on-surface-variant">
+          Data satelit: Copernicus Sentinel-2 processed via Google Earth Engine. Esri World Imagery basemap. Poligon baseline: Maus et al. (2019).
+        </p>
+</div>
+<div class="flex items-center gap-4 flex-shrink-0">
+<span class="font-caption-mono text-caption-mono px-3 py-1 rounded bg-surface-container">
+          Versi Model: 1.0.4-prod
+        </span>
+<button class="p-2 rounded bg-surface-container hover:bg-surface-container-high transition-colors" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Kembali ke atas">
+<span class="material-symbols-outlined text-[18px] text-on-surface">vertical_align_top</span>
+</button>
+</div>
+</footer>
+</div>
+</div></main></body></html>
