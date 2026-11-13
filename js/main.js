@@ -83,7 +83,7 @@ document.querySelectorAll('[data-dasar]').forEach((b) => b.addEventListener('cli
 // koordinat kursor
 peta.on('mousemove', (e) => { $('koordinat').textContent = `${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`; });
 
-// ---------- daftar lokasi kandidat tambang baru ----------
+// ---------- daftar lokasi indikasi tambang baru ----------
 let penanda = null;
 function lihatLokasi(k) {
   if (location.hash !== '#peta') location.hash = '#peta';
@@ -102,10 +102,10 @@ function gambarDaftar() {
       <span class="no">${k.no}</span>
       <span class="isi"><b>${k.nama || 'Lokasi ' + k.no}</b><em>${k.pusat.lat.toFixed(3)}, ${k.pusat.lng.toFixed(3)}</em></span>
       <span class="luas">${k.luas.toFixed(1)} km²<em>${k.jumlah} sel</em></span>
-    </li>`).join('') || '<li class="kosong">Belum ada kandidat.</li>';
+    </li>`).join('') || '<li class="kosong">Belum ada indikasi.</li>';
   const btn = $('btn-lokasi-semua');
   btn.hidden = klaster.length <= daftar.length && !semuaLokasi;
-  btn.textContent = semuaLokasi ? 'Tampilkan lokasi utama saja' : `Tampilkan semua (${klaster.length} lokasi, ${sisaKecil} di antaranya 1 sel)`;
+  btn.textContent = semuaLokasi ? 'Tampilkan lokasi utama saja' : `Tampilkan semua (${klaster.length} lokasi, ${sisaKecil} di antaranya 1 sel – kemungkinan noise)`;
 }
 $('daftar-lokasi').addEventListener('click', (e) => {
   const li = e.target.closest('li[data-no]');

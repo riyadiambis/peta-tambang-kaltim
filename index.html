@@ -6,7 +6,7 @@
   <title>Peta Tambang Kaltim 2024</title>
   <meta name="description" content="Peta prediksi tutupan lahan (tambang, sawit, hutan, permukiman) Samarinda hingga Loa Kulu dari citra Sentinel-2 2024 menggunakan custom CNN.">
   <meta property="og:title" content="Peta Tambang Kaltim 2024">
-  <meta property="og:description" content="Prediksi tutupan lahan dan kandidat bukaan tambang baru dari citra Sentinel-2 2024 dengan custom CNN.">
+  <meta property="og:description" content="Prediksi tutupan lahan dan indikasi bukaan tambang baru dari citra Sentinel-2 2024 dengan custom CNN. Hasil bersifat indikatif, perlu verifikasi visual.">
   <meta name="theme-color" content="#0E1116">
   <script>try { const t = localStorage.getItem('tema'); if (t) document.documentElement.dataset.tema = t; } catch (e) {}</script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -25,7 +25,7 @@
           <h1>Peta Tambang Kaltim</h1>
           <p>Prediksi tutupan lahan 2024 · Sentinel-2 · Custom CNN</p>
         </div>
-        <span class="lencana"><i></i>Model v1 · Akurasi 92,3%</span>
+        <span class="lencana"><i></i>Model v1 · Akurasi 92,3% (patch murni)</span>
       </div>
       <div class="kanan-atas">
       <nav class="navigasi" aria-label="Halaman">
@@ -66,16 +66,16 @@
           <div class="judul-kecil">Ringkasan wilayah kajian</div>
           <div class="ringkas tiga">
             <div><b id="total-tambang">0</b><span>km² tambang 2024</span></div>
-            <div class="merah"><b id="total-baru">0</b><span>km² kandidat baru</span></div>
-            <div><b id="total-lokasi">0</b><span>lokasi kandidat</span></div>
+            <div class="merah"><b id="total-baru">0</b><span>km² indikasi baru</span></div>
+            <div><b id="total-lokasi">0</b><span>lokasi indikasi</span></div>
           </div>
           <div id="bar-total" class="bar-tumpuk"></div>
           <ul id="komposisi-total" class="komposisi"></ul>
         </section>
 
         <section class="blok sorot">
-          <div class="judul-kecil">Lokasi kandidat tambang baru <span class="tip">klik untuk melihat</span></div>
-          <p class="catatan atas-0">Kelompok sel tambang 2024 di luar poligon tambang 2019 (Maus dkk.). Diurutkan dari yang terluas, perlu verifikasi visual.</p>
+          <div class="judul-kecil">Indikasi tambang baru <span class="tip">klik untuk melihat</span></div>
+          <p class="catatan atas-0">Kelompok sel tambang 2024 di luar poligon tambang 2019 (Maus dkk.). Model hanya mengenal 4 kelas, sehingga lahan terbuka lain (semak, bekas bakar, galian kecil) bisa tertebak tambang. Hasil bersifat indikatif dan perlu verifikasi visual.</p>
           <ol id="daftar-lokasi" class="daftar-lokasi"></ol>
           <button class="tombol sekunder lebar" id="btn-lokasi-semua" type="button" hidden>Tampilkan semua lokasi</button>
         </section>
@@ -83,7 +83,7 @@
         <section class="blok">
           <div class="judul-kecil">Lapisan</div>
           <div class="chip-kelas" id="chip-kelas" role="group" aria-label="Kelas yang ditampilkan"></div>
-          <label class="saklar"><span>Kandidat tambang baru</span><input type="checkbox" id="cek-baru" checked><i></i></label>
+          <label class="saklar"><span>Indikasi tambang baru</span><input type="checkbox" id="cek-baru" checked><i></i></label>
           <label class="saklar"><span>Poligon tambang 2019</span><input type="checkbox" id="cek-maus" checked><i></i></label>
           <label class="geser"><span>Opasitas <b id="nilai-opasitas">35%</b></span><input type="range" id="geser-opasitas" min="0" max="100" value="35"></label>
           <p class="catatan">Opasitas rendah membuat citra di bawahnya tetap terlihat, jadi pola kebun sawit, kanopi hutan, atau lahan terbuka tambang bisa dikenali langsung.</p>
@@ -99,7 +99,7 @@
             </div>
             <div id="bar-tumpuk" class="bar-tumpuk"></div>
             <div id="bar-kelas" class="bar-kelas"></div>
-            <p class="catatan"><span id="info-kotak"></span> Kandidat baru di kotak: <b id="jumlah-baru">0</b> sel <span id="luas-baru"></span>.</p>
+            <p class="catatan"><span id="info-kotak"></span> Indikasi baru di kotak: <b id="jumlah-baru">0</b> sel <span id="luas-baru"></span>.</p>
             <div class="baris-tombol">
               <button class="tombol" id="btn-tengah" type="button">Pusatkan kotak</button>
             </div>
@@ -140,7 +140,7 @@
           <div class="pahlawan-teks">
             <span class="label-bagian">Proyek Akhir · Praktikum Kecerdasan Buatan</span>
             <h2>Mendeteksi bukaan tambang batu bara Kalimantan Timur dari citra satelit</h2>
-            <p class="pengantar">Peta tambang yang tersedia dibuat dari citra 2019, sehingga bukaan tambang baru setelahnya belum terpetakan. Proyek ini melatih custom CNN untuk membedakan tambang, sawit, hutan, dan permukiman dari citra Sentinel-2, lalu menerapkannya ke citra 2024 untuk menandai kandidat tambang baru.</p>
+            <p class="pengantar">Peta tambang yang tersedia dibuat dari citra 2019, sehingga bukaan tambang baru setelahnya belum terpetakan. Proyek ini melatih custom CNN untuk membedakan tambang, sawit, hutan, dan permukiman dari citra Sentinel-2, lalu menerapkannya ke citra 2024 untuk menandai indikasi tambang baru.</p>
             <div class="baris-tombol">
               <a class="tombol" href="#peta">Lihat peta 2024</a>
               <a class="tombol sekunder" href="#demo">Coba model</a>
@@ -150,7 +150,7 @@
             <div><b>92,3%</b><span>Akurasi test</span><em>naik dari baseline 88,9%</em></div>
             <div><b>0,95</b><span>F1-score tambang</span><em>kelas utama kajian</em></div>
             <div><b>855</b><span>Patch berlabel</span><em>64 × 64 piksel, 7 band</em></div>
-            <div><b>279</b><span>Kandidat sel tambang baru</span><em>peta 2024, ±114 km²</em></div>
+            <div><b>279</b><span>Indikasi sel tambang baru</span><em>peta 2024, ±114 km²</em></div>
           </div>
         </section>
 
@@ -205,14 +205,16 @@
             <div class="kepala-bagian"><span class="nomor">05</span><div><h3>Keterbatasan</h3></div></div>
             <ul class="daftar">
               <li>Peta 2024 belum memiliki label pembanding, sehingga hasilnya indikatif dan perlu verifikasi visual.</li>
-              <li>Model hanya mengenal 4 kelas, sehingga semak, ladang, atau hutan sekunder dapat tertebak sawit.</li>
+              <li>Model hanya mengenal 4 kelas. Lahan seperti semak, ladang, bekas terbakar, atau galian kecil yang tidak termasuk keempatnya dipaksa masuk ke kelas terdekat: lahan hijau terbuka jadi sawit, lahan terbuka gelap jadi tambang. Ini sumber ketidakpastian terbesar pada peta wilayah.</li>
+              <li>Model dilatih dengan patch "murni" (minimal 80% satu kelas). Sel 640 m di peta nyata sering berisi campuran kelas yang belum pernah dilihat model.</li>
               <li>Test set permukiman hanya 7 patch, sehingga nilainya belum stabil.</li>
             </ul>
           </div>
           <div>
             <div class="kepala-bagian"><span class="nomor">06</span><div><h3>Pengembangan</h3></div></div>
             <ul class="daftar">
-              <li>Menambah kelas lainnya dan air agar lahan di luar 4 kelas tidak dipaksa masuk.</li>
+              <li>Tambah kelas "lainnya" (data kelas 0 yang dibuang saat latih) agar lahan di luar 4 kelas tidak dipaksa masuk, sekaligus latih dengan patch campuran kelas.</li>
+              <li>Validasi terukur: bandingkan tiap sel dengan ESA WorldCover 2021 dan peta sawit BIOPAMA lewat Google Earth Engine untuk mengukur seberapa besar kesalahan kelas.</li>
               <li>Memakai poligon tambang versi terbaru dan memperluas wilayah ke seluruh Kalimantan Timur.</li>
               <li>Membandingkan peta antar tahun untuk memantau laju pembukaan tambang.</li>
             </ul>

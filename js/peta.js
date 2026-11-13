@@ -76,7 +76,7 @@ function isiPopup(f) {
   if (p.k === KELAS_AIR) return '<b>Air</b><br>Sungai/danau (masker ESA WorldCover), tidak ditebak model';
   const baris = p.p.map((v, i) => `<div class="pp-baris"><span>${KELAS[i].nama}</span>
     <i><em style="width:${v * 100}%;background:${KELAS[i].warna}"></em></i><b>${Math.round(v * 100)}%</b></div>`).join('');
-  const baru = p.b === 1 ? '<div class="popup-baru">Kandidat tambang baru, di luar poligon 2019</div>' : '';
+  const baru = p.b === 1 ? '<div class="popup-baru">Indikasi tambang baru, di luar poligon 2019</div>' : '';
   return `<div class="pp-judul"><span style="background:${KELAS[p.k].warna}"></span>${KELAS[p.k].nama}</div>${baris}${baru}`;
 }
 
@@ -96,6 +96,6 @@ export function aturGaya(lapis, ubah) {
 export function legendaHTML() {
   return KELAS.map((c) => `<li><i style="background:${c.warna}"></i>${c.nama}</li>`).join('') +
     `<li><i style="background:${WARNA_AIR}"></i>Air (dimasker)</li>` +
-    `<li><i class="lg-baru" style="background:${KELAS[0].warna}"></i>Kandidat baru</li>` +
+    `<li><i class="lg-baru" style="background:${KELAS[0].warna}"></i>Indikasi baru</li>` +
     '<li><i class="lg-maus"></i>Poligon 2019</li>';
 }
