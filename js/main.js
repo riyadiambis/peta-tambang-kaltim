@@ -9,6 +9,8 @@ import { pasangHalaman } from './halaman.js';
 
 const $ = (id) => document.getElementById(id);
 const peta = buatPeta('kanvas-peta');
+// ukuran wadah peta bisa berubah (ganti halaman, layar diputar), jadi Leaflet perlu dikabari
+new ResizeObserver(() => peta.invalidateSize()).observe($('kanvas-peta'));
 let sel = [];
 let prediksi = null;
 let maus = null;
@@ -79,6 +81,8 @@ async function muat() {
     prediksi = lapisPrediksi(data);
     sorotWilayah(peta, prediksi.getBounds());
     prediksi.addTo(peta);
+    await new Promise((r) => requestAnimationFrame(r));
+    peta.invalidateSize();
     peta.fitBounds(prediksi.getBounds(), { padding: [20, 20] });
     kotak.keDepan();
     tampilkan(hitung(sel, kotak.batas()));

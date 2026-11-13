@@ -319,3 +319,10 @@ code { font: 12.5px 'JetBrains Mono', monospace; background: var(--panel-2); bor
 .legenda .lg-baru { box-shadow: inset 0 0 0 2px #fff; }
 .legenda .lg-maus { border: 1px dashed currentColor; }
 :root[data-tema="terang"] .legenda .lg-baru { box-shadow: inset 0 0 0 2px var(--teks); }
+
+.navigasi a { white-space: nowrap; }
+@media (max-width: 1100px) { .lencana { display: none; } }
+@media (min-width: 761px) and (max-width: 960px) {
+  .navigasi a span { display: none; }
+  .halaman-peta { grid-template-columns: 1fr 300px; }
+}
