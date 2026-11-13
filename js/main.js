@@ -19,6 +19,7 @@ function kunciPeta() {
   const ukuran = peta.getSize();
   if (!ukuran.x || !ukuran.y) return;   // halaman peta sedang disembunyikan
   batasKunci = boundsData.pad(0.15);
+  peta.options.maxBoundsViscosity = 1.0;   // tidak bisa ditarik keluar, bukan sekadar memantul balik
   peta.setMaxBounds(batasKunci);
   peta.setMinZoom(peta.getBoundsZoom(batasKunci));
 }

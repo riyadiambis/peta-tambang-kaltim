@@ -13,7 +13,7 @@ const PETA_DASAR = {
 };
 
 export function buatPeta(idElemen) {
-  const peta = L.map(idElemen, { preferCanvas: true, zoomControl: false, attributionControl: false })
+  const peta = L.map(idElemen, { preferCanvas: true, zoomControl: false, attributionControl: false, maxBoundsViscosity: 1.0 })
     .setView(PETA_AWAL.pusat, PETA_AWAL.zoom);
   PETA_DASAR.satelit.addTo(peta);
   L.control.zoom({ position: 'bottomright' }).addTo(peta);
