@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peta Tambang Kaltim 2024</title>
+  <meta name="description" content="Peta prediksi tutupan lahan (tambang, sawit, hutan, permukiman) Samarinda hingga Loa Kulu dari citra Sentinel-2 2024 menggunakan custom CNN.">
+  <meta property="og:title" content="Peta Tambang Kaltim 2024">
+  <meta property="og:description" content="Prediksi tutupan lahan dan kandidat bukaan tambang baru dari citra Sentinel-2 2024 dengan custom CNN.">
+  <meta name="theme-color" content="#0E1116">
+  <script>try { const t = localStorage.getItem('tema'); if (t) document.documentElement.dataset.tema = t; } catch (e) {}</script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="aplikasi">
+    <header class="atas">
+      <div class="merek">
+        <img src="assets/favicon.svg" alt="" width="28" height="28">
+        <div>
+          <h1>Peta Tambang Kaltim</h1>
+          <p>Prediksi tutupan lahan 2024 · Sentinel-2 · Custom CNN</p>
+        </div>
+        <span class="lencana"><i></i>Model v1 · Akurasi 92,3%</span>
+      </div>
+      <div class="kanan-atas">
+      <nav class="navigasi" aria-label="Halaman">
+        <a href="#peta" data-halaman="peta"><svg viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span>Peta &amp; Hasil</span></a>
+        <a href="#demo" data-halaman="demo"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/></svg><span>Demo Model</span></a>
+        <a href="#tentang" data-halaman="tentang"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Tentang</span></a>
+      </nav>
+      <button class="tombol-tema" id="tombol-tema" type="button" aria-label="Ganti mode terang/gelap" title="Ganti mode terang/gelap">
+        <svg class="ikon-bulan" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>
+        <svg class="ikon-matahari" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      </div>
+    </header>
+
+    <!-- HALAMAN 1: PETA & HASIL -->
+    <main class="halaman halaman-peta" id="halaman-peta">
+      <div class="wadah-peta">
+        <form class="cari" id="form-cari" autocomplete="off" role="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+          <input id="input-cari" type="search" placeholder="Cari lokasi, misal: Loa Kulu" aria-label="Cari lokasi">
+          <ul id="hasil-cari" class="hasil-cari" hidden></ul>
+        </form>
+        <div id="kanvas-peta" class="peta" aria-label="Peta prediksi"></div>
+        <div class="pilih-dasar" role="group" aria-label="Peta dasar">
+          <button type="button" data-dasar="satelit" class="aktif">Satelit</button>
+          <button type="button" data-dasar="gelap">Gelap</button>
+        </div>
+        <div class="koordinat" id="koordinat">-0.5500, 117.0500</div>
+        <div id="memuat" class="memuat">Memuat data prediksi...</div>
+        <details class="legenda-mengambang" id="kotak-legenda" open>
+          <summary class="judul-kecil">Legenda</summary>
+          <ul class="legenda" id="legenda"></ul>
+        </details>
+      </div>
+
+      <aside class="panel" aria-label="Panel analisis">
+        <section class="blok">
+          <div class="judul-kecil">Area analisis <span class="tip">sorot kelas: arahkan ke barisnya</span></div>
+          <div class="ringkas">
+            <div><b id="luas-kotak">0</b><span>km² dianalisis</span></div>
+            <div><b id="jumlah-sel">0</b><span>sel 640 m</span></div>
+          </div>
+          <div id="bar-tumpuk" class="bar-tumpuk"></div>
+          <div id="bar-kelas" class="bar-kelas"></div>
+          <p id="info-kotak" class="catatan"></p>
+          <div class="baris-tombol">
+            <button class="tombol" id="btn-tengah" type="button">Pusatkan kotak</button>
+            <button class="tombol sekunder" id="btn-semua" type="button">Seluruh area</button>
+          </div>
+          <p class="catatan">Geser kotak lewat titik tengah, ubah ukuran lewat pojok kanan bawah. Ketuk sel untuk melihat peluang tiap kelas.</p>
+        </section>
+
+        <section class="blok sorot">
+          <div class="judul-kecil">Kandidat tambang baru</div>
+          <p class="angka-besar"><b id="jumlah-baru">0</b> sel <span id="luas-baru"></span></p>
+          <p class="catatan">Sel tambang 2024 di luar poligon tambang 2019 (Maus dkk.). Perlu verifikasi visual.</p>
+        </section>
+
+        <section class="blok">
+          <div class="judul-kecil">Lapisan</div>
+          <label class="saklar"><span>Prediksi 2024</span><input type="checkbox" id="cek-prediksi" checked><i></i></label>
+          <label class="saklar"><span>Hanya tambang</span><input type="checkbox" id="cek-tambang"><i></i></label>
+          <label class="saklar"><span>Poligon tambang 2019</span><input type="checkbox" id="cek-maus" checked><i></i></label>
+          <label class="geser"><span>Opasitas <b id="nilai-opasitas">60%</b></span><input type="range" id="geser-opasitas" min="0" max="100" value="60"></label>
+        </section>
+      </aside>
+    </main>
+
+    <!-- HALAMAN 2: DEMO MODEL -->
+    <main class="halaman halaman-isi" id="halaman-demo" hidden>
+      <div class="isi-lebar demo">
+        <div class="demo-kiri">
+          <div class="judul-kecil">Demo model</div>
+          <h2>Coba klasifikasi patch Sentinel-2</h2>
+          <p class="pengantar">Model custom CNN dijalankan di Hugging Face Space. Pilih salah satu contoh patch dari test set, atau unggah patch <code>.npy</code> berukuran 64 × 64 × 7.</p>
+          <ol class="langkah">
+            <li>Pilih contoh di menu <b>Pilih contoh patch</b>, lalu tekan <b>Prediksi</b>.</li>
+            <li>Atau unduh salah satu file di bawah, lalu unggah ke kotak upload.</li>
+            <li>Lihat peluang tiap kelas dan bandingkan dengan label aslinya.</li>
+          </ol>
+          <div class="judul-kecil">Contoh patch untuk diunggah</div>
+          <ul class="unduhan" id="daftar-unduhan"></ul>
+          <p class="catatan">Urutan band: B2, B3, B4, B5, B8, B11, B12. Patch berasal dari test set (wilayah yang tidak dipakai saat latih). Dua patch terakhir sengaja dipilih dari tebakan yang salah.</p>
+          <div class="baris-tombol"><a class="tombol" id="tautan-space" target="_blank" rel="noopener">Buka di Hugging Face</a></div>
+        </div>
+        <div class="demo-kanan">
+          <iframe id="bingkai-demo" title="Demo model di Hugging Face Space" loading="lazy"></iframe>
+        </div>
+      </div>
+    </main>
+
+    <!-- HALAMAN 3: TENTANG -->
+    <main class="halaman halaman-isi" id="halaman-tentang" hidden>
+      <div class="isi-lebar tentang">
+
+        <section class="pahlawan">
+          <div class="pahlawan-teks">
+            <span class="label-bagian">Proyek Akhir · Praktikum Kecerdasan Buatan</span>
+            <h2>Mendeteksi bukaan tambang batu bara Kalimantan Timur dari citra satelit</h2>
+            <p class="pengantar">Peta tambang yang tersedia dibuat dari citra 2019, sehingga bukaan tambang baru setelahnya belum terpetakan. Proyek ini melatih custom CNN untuk membedakan tambang, sawit, hutan, dan permukiman dari citra Sentinel-2, lalu menerapkannya ke citra 2024 untuk menandai kandidat tambang baru.</p>
+            <div class="baris-tombol">
+              <a class="tombol" href="#peta">Lihat peta 2024</a>
+              <a class="tombol sekunder" href="#demo">Coba model</a>
+            </div>
+          </div>
+          <div class="pahlawan-angka">
+            <div><b>92,3%</b><span>Akurasi test</span><em>naik dari baseline 88,9%</em></div>
+            <div><b>0,95</b><span>F1-score tambang</span><em>kelas utama kajian</em></div>
+            <div><b>855</b><span>Patch berlabel</span><em>64 × 64 piksel, 7 band</em></div>
+            <div><b>279</b><span>Kandidat sel tambang baru</span><em>peta 2024, ±114 km²</em></div>
+          </div>
+        </section>
+
+        <section class="bagian">
+          <div class="kepala-bagian"><span class="nomor">01</span><div><h3>Alur kerja</h3><p>Dari citra satelit sampai peta prediksi.</p></div></div>
+          <ol class="alur">
+            <li><b>Pengumpulan data</b><span>Komposit median Sentinel-2 L2A 2019-2020 lewat Google Earth Engine, masking awan SCL, area Balikpapan hingga Sangatta.</span></li>
+            <li><b>Pelabelan otomatis</b><span>Label dari dataset global, lalu dipotong jadi patch 640 m dengan kemurnian label minimal 80%.</span></li>
+            <li><b>Pelatihan CNN</b><span>Split per blok wilayah 0,05° (70/15/15), bobot kelas, augmentasi flip, dan grid search 8 kombinasi.</span></li>
+            <li><b>Peta 2024</b><span>Model diterapkan ke 4.900 sel citra 2024, badan air dimasker, lalu dibandingkan dengan poligon tambang 2019.</span></li>
+          </ol>
+        </section>
+
+        <section class="bagian dua-kolom">
+          <div>
+            <div class="kepala-bagian"><span class="nomor">02</span><div><h3>Arsitektur model</h3><p>Custom CNN, dibangun dari nol tanpa transfer learning.</p></div></div>
+            <div class="arsitektur">
+              <span class="lapis masuk">Input 64×64×7</span>
+              <span class="lapis konv">Conv2D 32 · MaxPool</span>
+              <span class="lapis konv">Conv2D 64 · MaxPool</span>
+              <span class="lapis konv">Conv2D 128 · MaxPool</span>
+              <span class="lapis padat">Flatten · Dropout 0,5</span>
+              <span class="lapis padat">Dense 128</span>
+              <span class="lapis keluar">Softmax 4 kelas</span>
+            </div>
+            <p class="catatan">Hiperparameter terbaik: Flatten, learning rate 0,0005, dropout 0,5 (akurasi validasi 94,2%). GlobalAveragePooling2D memberi akurasi validasi rata-rata setara dengan parameter 10 kali lebih sedikit.</p>
+          </div>
+          <div>
+            <div class="kepala-bagian"><span class="nomor">03</span><div><h3>Hasil per kelas</h3><p>F1-score pada test set (117 patch, wilayah terpisah).</p></div></div>
+            <div class="f1">
+              <div><span>Tambang</span><i><em style="width:95%;background:var(--tambang)"></em></i><b>0,95</b></div>
+              <div><span>Sawit</span><i><em style="width:93%;background:var(--sawit)"></em></i><b>0,93</b></div>
+              <div><span>Hutan</span><i><em style="width:93%;background:var(--hutan)"></em></i><b>0,93</b></div>
+              <div><span>Permukiman</span><i><em style="width:77%;background:var(--permukiman)"></em></i><b>0,77</b></div>
+            </div>
+            <p class="catatan">Kesalahan terbanyak: sawit tertebak hutan karena kanopi rapat yang mirip, serta permukiman dan tambang yang sama-sama berupa lahan terbuka.</p>
+          </div>
+        </section>
+
+        <section class="bagian">
+          <div class="kepala-bagian"><span class="nomor">04</span><div><h3>Sumber data</h3><p>Seluruh data terbuka dan dapat diakses ulang.</p></div></div>
+          <div class="sumber">
+            <div><b>Sentinel-2 L2A</b><span>Citra multispektral 10 m, Copernicus via Google Earth Engine</span><em>Citra</em></div>
+            <div><b>Poligon tambang global</b><span>Maus dkk. 2022, disaring NDVI &lt; 0,3</span><em>Label tambang</em></div>
+            <div><b>ESA WorldCover</b><span>Tutupan pohon dan area terbangun (2020), badan air (2021)</span><em>Label hutan, permukiman, masker air</em></div>
+            <div><b>BIOPAMA Global Oil Palm</b><span>Kebun sawit dengan tahun tanam paling lambat 2016</span><em>Label sawit</em></div>
+          </div>
+        </section>
+
+        <section class="bagian dua-kolom">
+          <div>
+            <div class="kepala-bagian"><span class="nomor">05</span><div><h3>Keterbatasan</h3></div></div>
+            <ul class="daftar">
+              <li>Peta 2024 belum memiliki label pembanding, sehingga hasilnya indikatif dan perlu verifikasi visual.</li>
+              <li>Model hanya mengenal 4 kelas, sehingga semak, ladang, atau hutan sekunder dapat tertebak sawit.</li>
+              <li>Test set permukiman hanya 7 patch, sehingga nilainya belum stabil.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="kepala-bagian"><span class="nomor">06</span><div><h3>Pengembangan</h3></div></div>
+            <ul class="daftar">
+              <li>Menambah kelas lainnya dan air agar lahan di luar 4 kelas tidak dipaksa masuk.</li>
+              <li>Memakai poligon tambang versi terbaru dan memperluas wilayah ke seluruh Kalimantan Timur.</li>
+              <li>Membandingkan peta antar tahun untuk memantau laju pembukaan tambang.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="penulis">
+          <div class="avatar">RR</div>
+          <div class="penulis-teks">
+            <h3>Rahmat Riyadi</h3>
+            <p>Informatika, Universitas Mulawarman</p>
+          </div>
+          <div class="baris-tombol" id="tautan"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="pesan" class="pesan" role="status" hidden></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
