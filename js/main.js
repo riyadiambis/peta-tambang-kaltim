@@ -11,7 +11,18 @@ import { pasangTema } from './tema.js';
 const $ = (id) => document.getElementById(id);
 const peta = buatPeta('kanvas-peta');
 // ukuran wadah peta bisa berubah (ganti halaman, layar diputar), jadi Leaflet perlu dikabari
-new ResizeObserver(() => peta.invalidateSize()).observe($('kanvas-peta'));
+// peta dikunci ke area data: batas = bounds GeoJSON prediksi + 15%, zoom out paling jauh = seluruh kotak
+let boundsData = null;
+let batasKunci = null;
+function kunciPeta() {
+  if (!boundsData) return;
+  const ukuran = peta.getSize();
+  if (!ukuran.x || !ukuran.y) return;   // halaman peta sedang disembunyikan
+  batasKunci = boundsData.pad(0.15);
+  peta.setMaxBounds(batasKunci);
+  peta.setMinZoom(peta.getBoundsZoom(batasKunci));
+}
+new ResizeObserver(() => { peta.invalidateSize(); kunciPeta(); }).observe($('kanvas-peta'));
 
 let sel = [];
 let prediksi = null;
@@ -137,7 +148,10 @@ pasangPencarian({
   form: $('form-cari'),
   input: $('input-cari'),
   hasil: $('hasil-cari'),
-  saatPilih: (latlng) => { peta.flyTo(latlng, 13); if (kotak.aktif()) kotak.pindahKe(latlng); },
+  saatPilih: (latlng) => {
+    if (batasKunci && !batasKunci.contains(latlng)) { pesan('Lokasi di luar area peta'); return; }
+    peta.flyTo(latlng, 13); if (kotak.aktif()) kotak.pindahKe(latlng);
+  },
 });
 
 $('tautan').innerHTML = TAUTAN.map((t) =>
@@ -149,7 +163,11 @@ $('daftar-unduhan').innerHTML = CONTOH_PATCH.map((c) => `<li>
 </li>`).join('');
 
 pasangHalaman((nama) => {
-  if (nama === 'peta') setTimeout(() => peta.invalidateSize(), 50);
+  if (nama === 'peta') setTimeout(() => {
+    peta.invalidateSize();
+    kunciPeta();
+    if (boundsData) peta.fitBounds(boundsData, { padding: [20, 20], animate: false });
+  }, 50);
   if (nama === 'demo' && !$('bingkai-demo').src) $('bingkai-demo').src = SPACE.sematan;
 });
 
@@ -168,9 +186,11 @@ async function muat() {
     sorotWilayah(peta, prediksi.getBounds());
     prediksi.addTo(peta);
     await new Promise((r) => requestAnimationFrame(r));
+    boundsData = prediksi.getBounds();
     peta.invalidateSize();
-    peta.fitBounds(prediksi.getBounds(), { padding: [20, 20] });
-    kotak.aturArea(prediksi.getBounds());
+    kunciPeta();
+    peta.fitBounds(boundsData, { padding: [20, 20], animate: false });
+    kotak.aturArea(boundsData);
 
     klaster = buatKlaster(sel);
     tampilkanTotal(sel, klaster.filter((k) => k.jumlah >= 2).length);
