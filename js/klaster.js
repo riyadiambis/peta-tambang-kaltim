@@ -1,6 +1,16 @@
 // kelompokkan sel kandidat tambang baru yang bersebelahan jadi "lokasi"
 import { LUAS_SEL } from './config.js';
 
+// kode kelas WorldCover yang paling sering di antara anggota, undefined jika data tidak punya properti w
+function modusWC(anggota) {
+  const hitung = new Map();
+  anggota.forEach((s) => { if (s.w != null) hitung.set(s.w, (hitung.get(s.w) || 0) + 1); });
+  let terbaik;
+  let maks = 0;
+  hitung.forEach((n, w) => { if (n > maks) { maks = n; terbaik = w; } });
+  return terbaik;
+}
+
 export function buatKlaster(sel) {
   const baru = sel.filter((s) => s.b);
   if (!baru.length) return [];
@@ -23,7 +33,7 @@ export function buatKlaster(sel) {
   return [...grup.values()]
     .map((anggota) => {
       const batas = L.latLngBounds(anggota.map((s) => s.tengah)).pad(0.15);
-      return { jumlah: anggota.length, luas: anggota.length * LUAS_SEL, batas, pusat: batas.getCenter(), nama: null };
+      return { jumlah: anggota.length, luas: anggota.length * LUAS_SEL, batas, pusat: batas.getCenter(), nama: null, w: modusWC(anggota) };
     })
     .sort((a, b) => b.jumlah - a.jumlah)
     .map((k, i) => ({ ...k, no: i + 1 }));

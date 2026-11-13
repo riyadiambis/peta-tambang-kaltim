@@ -47,6 +47,17 @@ Jangan mengubah file data secara manual. Data dibuat ulang dari Notebook 3 di Ka
 - F1: tambang 0,95, sawit 0,93, hutan 0,93, permukiman 0,77 (test permukiman hanya 7 patch).
 - Peta 2024: tambang 398 sel, sawit 2.430, hutan 1.625, permukiman 315, air 132; 279 sel kandidat tambang baru.
 - Peta 2024 belum punya label pembanding, jadi selalu sebut sebagai indikatif.
+- Validasi silang dengan ESA WorldCover 2021 (angka dari pemilik proyek, dipakai di tabel halaman Tentang):
+
+  | Prediksi | Padanan WorldCover | Hasil 2021 | Kesesuaian |
+  |---|---|---|---|
+  | Sawit | Pohon | Pohon 97,8% | Tinggi |
+  | Hutan | Pohon | Pohon 80,2% | Tinggi |
+  | Permukiman | Lahan terbangun | Terbangun 54,0%, Pohon 34,3% | Sedang |
+  | Tambang | Lahan terbuka | Terbuka 21,1%, Pohon 62,3% | Rendah |
+
+  Dari 279 sel indikasi tambang baru: 186 sel masih pohon pada 2021, 45 terbuka, 38 air (total 269, jadi 10 sel tidak tercantum rincian kelasnya). Artinya banyak indikasi tambang baru kemungkinan salah, jadi selalu perlu verifikasi visual.
+- Properti `w` (kode kelas WorldCover) belum ada di `data/prediksi_2024.geojson`. Kode badge per lokasi sudah disiapkan di `js/klaster.js` dan `js/main.js`, badge baru tampil jika data punya `w`.
 
 ## Ide pengembangan berikutnya
 1. Analisis per kecamatan (batas GADM) sebagai pengganti kotak bebas.

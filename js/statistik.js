@@ -7,7 +7,8 @@ export function siapkanSel(geojson) {
     const c = f.geometry.coordinates[0];
     const lat = (c[0][1] + c[1][1] + c[2][1] + c[3][1]) / 4;
     const lon = (c[0][0] + c[1][0] + c[2][0] + c[3][0]) / 4;
-    return { tengah: L.latLng(lat, lon), k: f.properties.k, b: f.properties.b === 1 };
+    // w (kode kelas WorldCover) opsional, hanya ada jika data punya properti itu
+    return { tengah: L.latLng(lat, lon), k: f.properties.k, b: f.properties.b === 1, w: f.properties.w };
   });
 }
 
@@ -61,6 +62,7 @@ export function tampilkanTotal(sel, jumlahLokasi) {
   $('total-tambang').textContent = (n[0] * LUAS_SEL).toFixed(0);
   $('total-baru').textContent = (baru * LUAS_SEL).toFixed(0);
   $('total-lokasi').textContent = jumlahLokasi;
+  $('luas-terklasifikasi').textContent = `${(n.reduce((a, c) => a + c, 0) * LUAS_SEL).toFixed(0)} km² terklasifikasi`;
   $('bar-total').innerHTML = KELAS.map((c, i) => `<span style="width:${(n[i] / valid) * 100}%;background:${c.warna}" title="${c.nama}"></span>`).join('');
   $('komposisi-total').innerHTML = KELAS.map((c, i) =>
     `<li><i style="background:${c.warna}"></i>${c.nama}<b>${((n[i] / valid) * 100).toFixed(1)}%</b></li>`).join('');

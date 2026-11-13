@@ -69,7 +69,14 @@ $('geser-opasitas').value = OPASITAS_AWAL * 100;
 
 $('legenda').innerHTML = legendaHTML();
 // di HP legenda dilipat dulu biar peta nggak ketutup
-if (window.matchMedia('(max-width: 760px)').matches) $('kotak-legenda').open = false;
+if (window.matchMedia('(max-width: 768px)').matches) $('kotak-legenda').open = false;
+
+// di HP panel analisis jadi bottom sheet yang bisa dibuka dan ditutup
+function aturSheet(buka) {
+  $('pegangan-sheet').closest('.panel').classList.toggle('terbuka', buka);
+  $('pegangan-sheet').setAttribute('aria-expanded', buka);
+}
+$('pegangan-sheet').addEventListener('click', () => aturSheet(!$('pegangan-sheet').closest('.panel').classList.contains('terbuka')));
 
 pasangTema($('tombol-tema'), () => warnaiSorot());
 
@@ -84,21 +91,31 @@ peta.on('mousemove', (e) => { $('koordinat').textContent = `${e.latlng.lat.toFix
 
 // ---------- daftar lokasi indikasi tambang baru ----------
 let penanda = null;
+let noAktif = null;   // supaya sorotan item tetap ada saat daftar digambar ulang (nama desa terisi)
 function lihatLokasi(k) {
+  noAktif = k.no;
   if (location.hash !== '#peta') location.hash = '#peta';
   peta.flyToBounds(k.batas, { maxZoom: 15, duration: 0.8 });
   if (penanda) peta.removeLayer(penanda);
   penanda = L.rectangle(k.batas, { color: '#00E5FF', weight: 3, fill: false, dashArray: '2 6', className: 'kedip' }).addTo(peta);
   document.querySelectorAll('.daftar-lokasi li').forEach((li) => li.classList.toggle('aktif', +li.dataset.no === k.no));
-  if (window.matchMedia('(max-width: 760px)').matches) window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (window.matchMedia('(max-width: 768px)').matches) aturSheet(false);
+}
+
+// kode kelas ESA WorldCover. Badge per lokasi hanya tampil jika data punya properti w
+const WORLDCOVER = { 10: 'Pohon', 20: 'Semak', 30: 'Rumput', 40: 'Lahan pertanian', 50: 'Terbangun', 60: 'Lahan terbuka', 80: 'Air', 90: 'Lahan basah', 95: 'Mangrove' };
+function badgeWC(k) {
+  if (k.w == null) return '';
+  const label = WORLDCOVER[k.w] || `Kode ${k.w}`;
+  return `<span class="lencana-wc${k.w === 60 ? '' : ' netral'}">${label} 2021</span>`;
 }
 
 function gambarDaftar() {
   const daftar = klaster.filter((k) => k.jumlah >= 2);
   const sisaKecil = klaster.length - daftar.length;
-  $('daftar-lokasi').innerHTML = daftar.map((k) => `<li data-no="${k.no}" tabindex="0">
+  $('daftar-lokasi').innerHTML = daftar.map((k) => `<li data-no="${k.no}" tabindex="0"${k.no === noAktif ? ' class="aktif"' : ''}>
       <span class="no">${k.no}</span>
-      <span class="isi"><b>${k.nama || 'Lokasi ' + k.no}</b><em>${k.pusat.lat.toFixed(3)}, ${k.pusat.lng.toFixed(3)}</em></span>
+      <span class="isi"><b>${k.nama || 'Lokasi ' + k.no}</b><em>${k.pusat.lat.toFixed(3)}, ${k.pusat.lng.toFixed(3)}</em>${badgeWC(k)}</span>
       <span class="luas">${k.luas.toFixed(1)} km²<em>${k.jumlah} sel</em></span>
     </li>`).join('') || '<li class="kosong">Belum ada indikasi.</li>';
   const btn = $('btn-lokasi-semua');
