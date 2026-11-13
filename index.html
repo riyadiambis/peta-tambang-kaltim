@@ -63,33 +63,48 @@
 
       <aside class="panel" aria-label="Panel analisis">
         <section class="blok">
-          <div class="judul-kecil">Area analisis <span class="tip">sorot kelas: arahkan ke barisnya</span></div>
-          <div class="ringkas">
-            <div><b id="luas-kotak">0</b><span>km² dianalisis</span></div>
-            <div><b id="jumlah-sel">0</b><span>sel 640 m</span></div>
+          <div class="judul-kecil">Ringkasan wilayah kajian</div>
+          <div class="ringkas tiga">
+            <div><b id="total-tambang">0</b><span>km² tambang 2024</span></div>
+            <div class="merah"><b id="total-baru">0</b><span>km² kandidat baru</span></div>
+            <div><b id="total-lokasi">0</b><span>lokasi kandidat</span></div>
           </div>
-          <div id="bar-tumpuk" class="bar-tumpuk"></div>
-          <div id="bar-kelas" class="bar-kelas"></div>
-          <p id="info-kotak" class="catatan"></p>
-          <div class="baris-tombol">
-            <button class="tombol" id="btn-tengah" type="button">Pusatkan kotak</button>
-            <button class="tombol sekunder" id="btn-semua" type="button">Seluruh area</button>
-          </div>
-          <p class="catatan">Geser kotak lewat titik tengah, ubah ukuran lewat pojok kanan bawah. Ketuk sel untuk melihat peluang tiap kelas.</p>
+          <div id="bar-total" class="bar-tumpuk"></div>
+          <ul id="komposisi-total" class="komposisi"></ul>
         </section>
 
         <section class="blok sorot">
-          <div class="judul-kecil">Kandidat tambang baru</div>
-          <p class="angka-besar"><b id="jumlah-baru">0</b> sel <span id="luas-baru"></span></p>
-          <p class="catatan">Sel tambang 2024 di luar poligon tambang 2019 (Maus dkk.). Perlu verifikasi visual.</p>
+          <div class="judul-kecil">Lokasi kandidat tambang baru <span class="tip">klik untuk melihat</span></div>
+          <p class="catatan atas-0">Kelompok sel tambang 2024 di luar poligon tambang 2019 (Maus dkk.). Diurutkan dari yang terluas, perlu verifikasi visual.</p>
+          <ol id="daftar-lokasi" class="daftar-lokasi"></ol>
+          <button class="tombol sekunder lebar" id="btn-lokasi-semua" type="button" hidden>Tampilkan semua lokasi</button>
         </section>
 
         <section class="blok">
           <div class="judul-kecil">Lapisan</div>
-          <label class="saklar"><span>Prediksi 2024</span><input type="checkbox" id="cek-prediksi" checked><i></i></label>
-          <label class="saklar"><span>Hanya tambang</span><input type="checkbox" id="cek-tambang"><i></i></label>
+          <div class="chip-kelas" id="chip-kelas" role="group" aria-label="Kelas yang ditampilkan"></div>
+          <label class="saklar"><span>Kandidat tambang baru</span><input type="checkbox" id="cek-baru" checked><i></i></label>
           <label class="saklar"><span>Poligon tambang 2019</span><input type="checkbox" id="cek-maus" checked><i></i></label>
-          <label class="geser"><span>Opasitas <b id="nilai-opasitas">60%</b></span><input type="range" id="geser-opasitas" min="0" max="100" value="60"></label>
+          <label class="geser"><span>Opasitas <b id="nilai-opasitas">35%</b></span><input type="range" id="geser-opasitas" min="0" max="100" value="35"></label>
+          <p class="catatan">Opasitas rendah membuat citra di bawahnya tetap terlihat, jadi pola kebun sawit, kanopi hutan, atau lahan terbuka tambang bisa dikenali langsung.</p>
+        </section>
+
+        <section class="blok">
+          <div class="judul-kecil">Analisis area kustom</div>
+          <label class="saklar"><span>Tampilkan kotak analisis</span><input type="checkbox" id="cek-kotak"><i></i></label>
+          <div id="isi-kotak" hidden>
+            <div class="ringkas">
+              <div><b id="luas-kotak">0</b><span>km² dianalisis</span></div>
+              <div><b id="jumlah-sel">0</b><span>sel 640 m</span></div>
+            </div>
+            <div id="bar-tumpuk" class="bar-tumpuk"></div>
+            <div id="bar-kelas" class="bar-kelas"></div>
+            <p class="catatan"><span id="info-kotak"></span> Kandidat baru di kotak: <b id="jumlah-baru">0</b> sel <span id="luas-baru"></span>.</p>
+            <div class="baris-tombol">
+              <button class="tombol" id="btn-tengah" type="button">Pusatkan kotak</button>
+            </div>
+            <p class="catatan">Geser lewat titik tengah, ubah ukuran lewat pojok kanan bawah. Arahkan kursor ke baris kelas untuk menyorotnya di peta.</p>
+          </div>
         </section>
       </aside>
     </main>

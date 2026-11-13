@@ -1,7 +1,7 @@
 // peta dasar + lapisan prediksi dan poligon tambang 2019
-import { KELAS, KELAS_AIR, WARNA_AIR, WARNA_BARU, PETA_AWAL } from './config.js';
+import { KELAS, KELAS_AIR, WARNA_AIR, WARNA_BARU, PETA_AWAL, OPASITAS_AWAL, KELAS_AWAL } from './config.js';
 
-const gaya = { opasitas: 0.6, hanyaTambang: false, sorot: null };
+const gaya = { opasitas: OPASITAS_AWAL, tampil: new Set(KELAS_AWAL), baru: true, sorot: null };
 
 const PETA_DASAR = {
   satelit: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -49,17 +49,24 @@ export function warnaiSorot() {
 
 function gayaSel(f) {
   const k = f.properties.k;
-  if (k < 0) return { stroke: false, fillColor: '#000', fillOpacity: gaya.opasitas * 0.35 };
-  if (k === KELAS_AIR) return { stroke: false, fillColor: WARNA_AIR, fillOpacity: gaya.hanyaTambang ? 0 : gaya.opasitas * 0.8 };
-  if (gaya.hanyaTambang && k !== 0) return { stroke: false, fillOpacity: 0 };
+  const sembunyi = { stroke: false, fill: false };
+  if (k < 0) return { stroke: false, fillColor: '#000', fillOpacity: gaya.opasitas * 0.4 };
+  const baru = gaya.baru && f.properties.b === 1;
+  if (k === KELAS_AIR) return gaya.tampil.size > 1 ? { stroke: false, fillColor: WARNA_AIR, fillOpacity: gaya.opasitas * 0.7 } : sembunyi;
+  if (!gaya.tampil.has(k) && !baru) return sembunyi;
   const redup = gaya.sorot !== null && gaya.sorot !== k;
-  const baru = f.properties.b === 1;
+  if (!gaya.tampil.has(k)) {
+    // kelas disembunyikan tapi sel ini kandidat baru: cukup garis tepinya
+    return { color: WARNA_BARU, weight: 2, opacity: 1, fill: false };
+  }
   return {
-    color: baru ? WARNA_BARU : KELAS[k].warna,
-    weight: baru ? 1.5 : 0.3,
-    opacity: redup ? 0.1 : 0.9,
+    stroke: baru,
+    color: WARNA_BARU,
+    weight: 2,
+    opacity: redup ? 0.15 : 1,
+    fill: true,
     fillColor: KELAS[k].warna,
-    fillOpacity: redup ? gaya.opasitas * 0.12 : gaya.opasitas,
+    fillOpacity: redup ? gaya.opasitas * 0.15 : gaya.opasitas,
   };
 }
 

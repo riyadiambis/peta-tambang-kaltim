@@ -326,3 +326,37 @@ code { font: 12.5px 'JetBrains Mono', monospace; background: var(--panel-2); bor
   .navigasi a span { display: none; }
   .halaman-peta { grid-template-columns: 1fr 300px; }
 }
+
+/* ===== versi fokus tambang: ringkasan, daftar lokasi, chip kelas ===== */
+.ringkas.tiga { grid-template-columns: repeat(3, 1fr); }
+.ringkas.tiga b { font-size: 19px; }
+.ringkas.tiga span { font-size: 11.5px; line-height: 1.3; display: block; }
+.ringkas div.merah::before { background: var(--tambang); }
+.ringkas div.merah b { color: var(--tambang); }
+.komposisi { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 12.5px; color: var(--teks-2); }
+.komposisi li { display: flex; align-items: center; gap: 7px; }
+.komposisi i { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+.komposisi b { margin-left: auto; font: 600 12px 'JetBrains Mono', monospace; color: var(--teks); }
+.catatan.atas-0 { margin: 0 0 12px; }
+
+.daftar-lokasi { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.daftar-lokasi li { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: center; padding: 9px 10px; background: var(--panel-2); border: 1px solid var(--garis); border-radius: 8px; cursor: pointer; transition: border-color .12s, background .12s; }
+.daftar-lokasi li:hover, .daftar-lokasi li:focus { border-color: var(--tambang); outline: none; }
+.daftar-lokasi li.aktif { border-color: var(--aksen-2); box-shadow: inset 3px 0 0 var(--aksen-2); }
+.daftar-lokasi li.kosong { display: block; cursor: default; color: var(--teks-2); }
+.daftar-lokasi .no { width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center; font: 600 11.5px 'JetBrains Mono', monospace; background: color-mix(in srgb, var(--tambang) 18%, transparent); color: var(--tambang); }
+.daftar-lokasi .isi { min-width: 0; display: flex; flex-direction: column; }
+.daftar-lokasi .isi b { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.daftar-lokasi em { font-style: normal; font: 500 11px 'JetBrains Mono', monospace; color: var(--teks-2); }
+.daftar-lokasi .luas { text-align: right; font: 600 12.5px 'JetBrains Mono', monospace; display: flex; flex-direction: column; }
+.tombol.lebar { width: 100%; margin-top: 10px; }
+
+.chip-kelas { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 600 12.5px 'Inter', sans-serif; color: var(--teks-2); background: transparent; border: 1px solid var(--garis); border-radius: 999px; padding: 5px 11px; cursor: pointer; }
+.chip i { width: 9px; height: 9px; border-radius: 50%; opacity: .45; }
+.chip.aktif { color: var(--teks); background: var(--panel-2); border-color: var(--teks-2); }
+.chip.aktif i { opacity: 1; }
+.chip:focus-visible { outline: 2px solid var(--aksen-2); outline-offset: 2px; }
+
+.kedip { animation: kedip 1.2s ease-in-out 3; }
+@keyframes kedip { 50% { opacity: .2; } }

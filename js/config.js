@@ -10,6 +10,8 @@ export const KELAS_KOSONG = -1;        // sel tertutup awan
 export const WARNA_AIR = '#3B7DD8';
 export const WARNA_BARU = '#FFFFFF';   // garis tepi kandidat tambang baru
 export const LUAS_SEL = 0.4096;        // km2, 640 m x 640 m
+export const OPASITAS_AWAL = 0.35;
+export const KELAS_AWAL = [0];         // kelas yang tampil saat pertama dibuka (tambang)
 
 export const DATA = {
   prediksi: 'data/prediksi_2024.geojson',

@@ -49,3 +49,19 @@ export function tampilkan(h) {
       <div class="bar-luar"><div class="bar-isi" style="width:${persen[i]}%;background:${c.warna}"></div></div>
     </div>`).join('');
 }
+
+// ringkasan seluruh wilayah kajian (tanpa kotak)
+export function tampilkanTotal(sel, jumlahLokasi) {
+  const n = [0, 0, 0, 0];
+  let baru = 0;
+  for (const s of sel) {
+    if (s.k >= 0 && s.k < 4) { n[s.k]++; if (s.b) baru++; }
+  }
+  const valid = n.reduce((a, c) => a + c, 0) || 1;
+  $('total-tambang').textContent = (n[0] * LUAS_SEL).toFixed(0);
+  $('total-baru').textContent = (baru * LUAS_SEL).toFixed(0);
+  $('total-lokasi').textContent = jumlahLokasi;
+  $('bar-total').innerHTML = KELAS.map((c, i) => `<span style="width:${(n[i] / valid) * 100}%;background:${c.warna}" title="${c.nama}"></span>`).join('');
+  $('komposisi-total').innerHTML = KELAS.map((c, i) =>
+    `<li><i style="background:${c.warna}"></i>${c.nama}<b>${((n[i] / valid) * 100).toFixed(1)}%</b></li>`).join('');
+}

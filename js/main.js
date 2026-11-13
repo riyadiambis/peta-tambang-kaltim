@@ -1,19 +1,24 @@
-// titik masuk: rakit peta, kotak, panel, pencarian, lalu muat data hasil Notebook 3
-import { DATA, TAUTAN, SPACE, CONTOH_PATCH } from './config.js';
+// titik masuk: rakit peta, panel, pencarian, halaman, lalu muat data hasil Notebook 3
+import { DATA, TAUTAN, SPACE, CONTOH_PATCH, KELAS, KELAS_AWAL, OPASITAS_AWAL } from './config.js';
 import { buatPeta, lapisPrediksi, lapisMaus, aturGaya, legendaHTML, gantiPetaDasar, sorotWilayah, warnaiSorot } from './peta.js';
-import { pasangTema } from './tema.js';
 import { buatKotak } from './kotak.js';
-import { siapkanSel, hitung, tampilkan } from './statistik.js';
+import { siapkanSel, hitung, tampilkan, tampilkanTotal } from './statistik.js';
+import { buatKlaster, isiNama } from './klaster.js';
 import { pasangPencarian } from './cari.js';
 import { pasangHalaman } from './halaman.js';
+import { pasangTema } from './tema.js';
 
 const $ = (id) => document.getElementById(id);
 const peta = buatPeta('kanvas-peta');
 // ukuran wadah peta bisa berubah (ganti halaman, layar diputar), jadi Leaflet perlu dikabari
 new ResizeObserver(() => peta.invalidateSize()).observe($('kanvas-peta'));
+
 let sel = [];
 let prediksi = null;
 let maus = null;
+let klaster = [];
+let semuaLokasi = false;
+const tampil = new Set(KELAS_AWAL);
 
 function pesan(teks, lama = 4000) {
   const el = $('pesan');
@@ -23,23 +28,15 @@ function pesan(teks, lama = 4000) {
   pesan.t = setTimeout(() => { el.hidden = true; }, lama);
 }
 
+// ---------- kotak analisis (opsional) ----------
 const kotak = buatKotak(peta, (batas) => tampilkan(hitung(sel, batas)));
-
-$('legenda').innerHTML = legendaHTML();
-// di HP legenda dilipat dulu biar peta nggak ketutup
-if (window.matchMedia('(max-width: 760px)').matches) $('kotak-legenda').open = false;
-$('tautan').innerHTML = TAUTAN.map((t) =>
-  `<a class="tombol${t.sekunder ? ' sekunder' : ''}" href="${t.url}" target="_blank" rel="noopener">${t.teks}</a>`).join('');
-
+$('cek-kotak').addEventListener('change', (e) => {
+  $('isi-kotak').hidden = !e.target.checked;
+  kotak.tampilkan(e.target.checked);
+  if (e.target.checked) kotak.pindahKe(peta.getCenter());
+});
 $('btn-tengah').addEventListener('click', () => kotak.pindahKe(peta.getCenter()));
-$('btn-semua').addEventListener('click', () => { if (prediksi) kotak.set(prediksi.getBounds()); });
-$('cek-prediksi').addEventListener('change', (e) => {
-  if (prediksi) (e.target.checked ? prediksi.addTo(peta) : peta.removeLayer(prediksi));
-});
-$('cek-maus').addEventListener('change', (e) => {
-  if (maus) (e.target.checked ? maus.addTo(peta) : peta.removeLayer(maus));
-});
-$('cek-tambang').addEventListener('change', (e) => aturGaya(prediksi, { hanyaTambang: e.target.checked }));
+
 // sorot satu kelas di peta saat barisnya di panel disentuh
 const barKelas = $('bar-kelas');
 const sorot = (e) => { const r = e.target.closest('.bar-baris'); aturGaya(prediksi, { sorot: r ? +r.dataset.k : null }); };
@@ -47,6 +44,33 @@ barKelas.addEventListener('mouseover', sorot);
 barKelas.addEventListener('focusin', sorot);
 barKelas.addEventListener('mouseleave', () => aturGaya(prediksi, { sorot: null }));
 barKelas.addEventListener('focusout', () => aturGaya(prediksi, { sorot: null }));
+
+// ---------- lapisan ----------
+$('chip-kelas').innerHTML = KELAS.map((c, i) =>
+  `<button type="button" class="chip${tampil.has(i) ? ' aktif' : ''}" data-k="${i}" aria-pressed="${tampil.has(i)}">
+    <i style="background:${c.warna}"></i>${c.nama}</button>`).join('');
+$('chip-kelas').addEventListener('click', (e) => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  const k = +b.dataset.k;
+  if (tampil.has(k)) tampil.delete(k); else tampil.add(k);
+  b.classList.toggle('aktif', tampil.has(k));
+  b.setAttribute('aria-pressed', tampil.has(k));
+  aturGaya(prediksi, { tampil });
+});
+$('cek-baru').addEventListener('change', (e) => aturGaya(prediksi, { baru: e.target.checked }));
+$('cek-maus').addEventListener('change', (e) => {
+  if (maus) (e.target.checked ? maus.addTo(peta) : peta.removeLayer(maus));
+});
+$('geser-opasitas').addEventListener('input', (e) => {
+  aturGaya(prediksi, { opasitas: e.target.value / 100 });
+  $('nilai-opasitas').textContent = `${e.target.value}%`;
+});
+$('geser-opasitas').value = OPASITAS_AWAL * 100;
+
+$('legenda').innerHTML = legendaHTML();
+// di HP legenda dilipat dulu biar peta nggak ketutup
+if (window.matchMedia('(max-width: 760px)').matches) $('kotak-legenda').open = false;
 
 pasangTema($('tombol-tema'), () => warnaiSorot());
 
@@ -59,15 +83,62 @@ document.querySelectorAll('[data-dasar]').forEach((b) => b.addEventListener('cli
 // koordinat kursor
 peta.on('mousemove', (e) => { $('koordinat').textContent = `${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`; });
 
-$('geser-opasitas').addEventListener('input', (e) => { aturGaya(prediksi, { opasitas: e.target.value / 100 }); $('nilai-opasitas').textContent = `${e.target.value}%`; });
+// ---------- daftar lokasi kandidat tambang baru ----------
+let penanda = null;
+function lihatLokasi(k) {
+  if (location.hash !== '#peta') location.hash = '#peta';
+  peta.flyToBounds(k.batas, { maxZoom: 15, duration: 0.8 });
+  if (penanda) peta.removeLayer(penanda);
+  penanda = L.rectangle(k.batas, { color: '#00E5FF', weight: 3, fill: false, dashArray: '2 6', className: 'kedip' }).addTo(peta);
+  document.querySelectorAll('.daftar-lokasi li').forEach((li) => li.classList.toggle('aktif', +li.dataset.no === k.no));
+  if (window.matchMedia('(max-width: 760px)').matches) window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
+function gambarDaftar() {
+  const besar = klaster.filter((k) => k.jumlah >= 2);
+  const daftar = semuaLokasi ? klaster : besar.slice(0, 8);
+  const sisaKecil = klaster.length - besar.length;
+  $('daftar-lokasi').innerHTML = daftar.map((k) => `<li data-no="${k.no}" tabindex="0">
+      <span class="no">${k.no}</span>
+      <span class="isi"><b>${k.nama || 'Lokasi ' + k.no}</b><em>${k.pusat.lat.toFixed(3)}, ${k.pusat.lng.toFixed(3)}</em></span>
+      <span class="luas">${k.luas.toFixed(1)} km²<em>${k.jumlah} sel</em></span>
+    </li>`).join('') || '<li class="kosong">Belum ada kandidat.</li>';
+  const btn = $('btn-lokasi-semua');
+  btn.hidden = klaster.length <= daftar.length && !semuaLokasi;
+  btn.textContent = semuaLokasi ? 'Tampilkan lokasi utama saja' : `Tampilkan semua (${klaster.length} lokasi, ${sisaKecil} di antaranya 1 sel)`;
+}
+$('daftar-lokasi').addEventListener('click', (e) => {
+  const li = e.target.closest('li[data-no]');
+  if (li) lihatLokasi(klaster[+li.dataset.no - 1]);
+});
+$('daftar-lokasi').addEventListener('keydown', (e) => {
+  const li = e.target.closest('li[data-no]');
+  if (li && e.key === 'Enter') lihatLokasi(klaster[+li.dataset.no - 1]);
+});
+$('btn-lokasi-semua').addEventListener('click', () => { semuaLokasi = !semuaLokasi; gambarDaftar(); });
+
+// ---------- pencarian, halaman, demo ----------
 pasangPencarian({
   form: $('form-cari'),
   input: $('input-cari'),
   hasil: $('hasil-cari'),
-  saatPilih: (latlng) => { peta.flyTo(latlng, 13); kotak.pindahKe(latlng); },
+  saatPilih: (latlng) => { peta.flyTo(latlng, 13); if (kotak.aktif()) kotak.pindahKe(latlng); },
 });
 
+$('tautan').innerHTML = TAUTAN.map((t) =>
+  `<a class="tombol${t.sekunder ? ' sekunder' : ''}" href="${t.url}" target="_blank" rel="noopener">${t.teks}</a>`).join('');
+$('tautan-space').href = SPACE.halaman;
+$('daftar-unduhan').innerHTML = CONTOH_PATCH.map((c) => `<li>
+  <a href="data/demo/${c.file}" download>${c.file}</a>
+  <span class="${c.label === c.tebakan ? 'benar' : 'salah'}">asli ${c.label} · tebakan ${c.tebakan}</span>
+</li>`).join('');
+
+pasangHalaman((nama) => {
+  if (nama === 'peta') setTimeout(() => peta.invalidateSize(), 50);
+  if (nama === 'demo' && !$('bingkai-demo').src) $('bingkai-demo').src = SPACE.sematan;
+});
+
+// ---------- muat data ----------
 async function muatJSON(url) {
   const r = await fetch(url);
   if (!r.ok) throw new Error(`${url}: ${r.status}`);
@@ -84,8 +155,12 @@ async function muat() {
     await new Promise((r) => requestAnimationFrame(r));
     peta.invalidateSize();
     peta.fitBounds(prediksi.getBounds(), { padding: [20, 20] });
-    kotak.keDepan();
-    tampilkan(hitung(sel, kotak.batas()));
+    kotak.aturArea(prediksi.getBounds());
+
+    klaster = buatKlaster(sel);
+    tampilkanTotal(sel, klaster.filter((k) => k.jumlah >= 2).length);
+    gambarDaftar();
+    isiNama(klaster.filter((k) => k.jumlah >= 2).slice(0, 8), () => gambarDaftar());
   } catch (err) {
     pesan('Data prediksi belum tersedia (data/prediksi_2024.geojson).', 8000);
   } finally {
@@ -94,20 +169,7 @@ async function muat() {
   try {
     maus = lapisMaus(await muatJSON(DATA.maus));
     if ($('cek-maus').checked) maus.addTo(peta);
-    kotak.keDepan();
   } catch (err) { /* poligon 2019 opsional */ }
 }
-
-// halaman demo: iframe baru dimuat saat halaman dibuka biar peta tetap ringan
-$('tautan-space').href = SPACE.halaman;
-$('daftar-unduhan').innerHTML = CONTOH_PATCH.map((c) => `<li>
-  <a href="data/demo/${c.file}" download>${c.file}</a>
-  <span class="${c.label === c.tebakan ? 'benar' : 'salah'}">asli ${c.label} · tebakan ${c.tebakan}</span>
-</li>`).join('');
-
-pasangHalaman((nama) => {
-  if (nama === 'peta') setTimeout(() => peta.invalidateSize(), 50);
-  if (nama === 'demo' && !$('bingkai-demo').src) $('bingkai-demo').src = SPACE.sematan;
-});
 
 muat();
