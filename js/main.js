@@ -17,7 +17,6 @@ let sel = [];
 let prediksi = null;
 let maus = null;
 let klaster = [];
-let semuaLokasi = false;
 const tampil = new Set(KELAS_AWAL);
 
 function pesan(teks, lama = 4000) {
@@ -95,17 +94,16 @@ function lihatLokasi(k) {
 }
 
 function gambarDaftar() {
-  const besar = klaster.filter((k) => k.jumlah >= 2);
-  const daftar = semuaLokasi ? klaster : besar.slice(0, 8);
-  const sisaKecil = klaster.length - besar.length;
+  const daftar = klaster.filter((k) => k.jumlah >= 2);
+  const sisaKecil = klaster.length - daftar.length;
   $('daftar-lokasi').innerHTML = daftar.map((k) => `<li data-no="${k.no}" tabindex="0">
       <span class="no">${k.no}</span>
       <span class="isi"><b>${k.nama || 'Lokasi ' + k.no}</b><em>${k.pusat.lat.toFixed(3)}, ${k.pusat.lng.toFixed(3)}</em></span>
       <span class="luas">${k.luas.toFixed(1)} km²<em>${k.jumlah} sel</em></span>
     </li>`).join('') || '<li class="kosong">Belum ada indikasi.</li>';
   const btn = $('btn-lokasi-semua');
-  btn.hidden = klaster.length <= daftar.length && !semuaLokasi;
-  btn.textContent = semuaLokasi ? 'Tampilkan lokasi utama saja' : `Tampilkan semua (${klaster.length} lokasi, ${sisaKecil} di antaranya 1 sel – kemungkinan noise)`;
+  btn.hidden = sisaKecil === 0;
+  btn.textContent = `+ ${sisaKecil} lokasi 1 sel (kemungkinan noise)`;
 }
 $('daftar-lokasi').addEventListener('click', (e) => {
   const li = e.target.closest('li[data-no]');
@@ -115,7 +113,7 @@ $('daftar-lokasi').addEventListener('keydown', (e) => {
   const li = e.target.closest('li[data-no]');
   if (li && e.key === 'Enter') lihatLokasi(klaster[+li.dataset.no - 1]);
 });
-$('btn-lokasi-semua').addEventListener('click', () => { semuaLokasi = !semuaLokasi; gambarDaftar(); });
+$('btn-lokasi-semua').addEventListener('click', () => { $('btn-lokasi-semua').hidden = true; });
 
 // ---------- pencarian, halaman, demo ----------
 pasangPencarian({
@@ -160,7 +158,7 @@ async function muat() {
     klaster = buatKlaster(sel);
     tampilkanTotal(sel, klaster.filter((k) => k.jumlah >= 2).length);
     gambarDaftar();
-    isiNama(klaster.filter((k) => k.jumlah >= 2).slice(0, 8), () => gambarDaftar());
+    isiNama(klaster.filter((k) => k.jumlah >= 2).slice(0, 15), () => gambarDaftar());
   } catch (err) {
     pesan('Data prediksi belum tersedia (data/prediksi_2024.geojson).', 8000);
   } finally {

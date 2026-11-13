@@ -339,7 +339,10 @@ code { font: 12.5px 'JetBrains Mono', monospace; background: var(--panel-2); bor
 .komposisi b { margin-left: auto; font: 600 12px 'JetBrains Mono', monospace; color: var(--teks); }
 .catatan.atas-0 { margin: 0 0 12px; }
 
-.daftar-lokasi { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.daftar-lokasi { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 335px; overflow-y: auto; padding-right: 2px; scrollbar-width: thin; scrollbar-color: var(--garis) transparent; }
+.daftar-lokasi::-webkit-scrollbar { width: 4px; }
+.daftar-lokasi::-webkit-scrollbar-track { background: transparent; }
+.daftar-lokasi::-webkit-scrollbar-thumb { background: var(--garis); border-radius: 2px; }
 .daftar-lokasi li { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: center; padding: 9px 10px; background: var(--panel-2); border: 1px solid var(--garis); border-radius: 8px; cursor: pointer; transition: border-color .12s, background .12s; }
 .daftar-lokasi li:hover, .daftar-lokasi li:focus { border-color: var(--tambang); outline: none; }
 .daftar-lokasi li.aktif { border-color: var(--aksen-2); box-shadow: inset 3px 0 0 var(--aksen-2); }
